@@ -23,22 +23,25 @@ public class Clue {
 
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
-            System.out.println(separator);
+            System.out.println(separator);s
 
-            if (command.equals("bye")) {
-                System.out.println("Bye. Hope to see you again soon!");
-                System.out.println(separator);
-                break;
-            }
-
-            if (command.equals("list")) {
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.println(" " + (i + 1) + ". " + tasks[i]);
+            switch (command) {
+                case "bye" -> {
+                    System.out.println("Bye. Hope to see you again soon!");
+                    System.out.println(separator);
                 }
-            } else if (taskCount < tasks.length) {
-                tasks[taskCount] = new Task(command);
-                taskCount++;
-                System.out.println(" added: " + command);
+                case "list" -> {
+                    for (int i = 0; i < taskCount; i++) {
+                        System.out.println(" " + (i + 1) + ". " + tasks[i]);
+                    }
+                }
+                default -> {
+                    if (taskCount < tasks.length) {
+                        tasks[taskCount] = new Task(command);
+                        taskCount++;
+                        System.out.println(" added: " + command);
+                    }
+                }
             }
 
             System.out.println(separator);
