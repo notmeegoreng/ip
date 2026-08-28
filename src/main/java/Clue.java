@@ -50,21 +50,10 @@ public class Clue {
                         System.out.println("Please tell us which task to mark!");
                         break;
                     }
-                    int idx;
-                    try {
-                        idx = Integer.parseInt(input[1]) - 1;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid task number! Please provide a positive integer!");
-                        break;
-                    }
-                    if (idx < 0) {
-                        System.out.println("Invalid task number! Please provide a positive integer!");
-                    } else if (idx >= taskCount) {
-                        System.out.println("Invalid task number! Not enough recorded tasks!");
-                    } else {
-                        Task t = tasks[idx];
+                    Task t = getTaskFromInput(input[1]);
+                    if (t != null) {
                         t.setDone(true);
-                        System.out.println("Nice! I've marked this task as done:");
+                        System.out.println("Woohoo! I've marked this task as done:");
                         System.out.print("\t");
                         System.out.println(t);
                     }
@@ -74,21 +63,10 @@ public class Clue {
                         System.out.println("Please tell us which task to unmark!");
                         break;
                     }
-                    int idx;
-                    try {
-                        idx = Integer.parseInt(input[1]) - 1;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid task number! Please provide a positive integer!");
-                        break;
-                    }
-                    if (idx < 0) {
-                        System.out.println("Invalid task number! Please provide a positive integer!");
-                    } else if (idx >= taskCount) {
-                        System.out.println("Invalid task number! Not enough recorded tasks!");
-                    } else {
-                        Task t = tasks[idx];
+                    Task t = getTaskFromInput(input[1]);
+                    if (t != null) {
                         t.setDone(false);
-                        System.out.println("OK, I've marked this task as not done yet:");
+                        System.out.println("OK, I've marked this task as unfinished:");
                         System.out.print("\t");
                         System.out.println(t);
                     }
@@ -130,11 +108,29 @@ public class Clue {
         }
     }
 
+    static Task getTaskFromInput(String unparsedInt) {
+        int idx;
+        try {
+            idx = Integer.parseInt(unparsedInt) - 1;
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid task number! Please provide a positive integer!");
+            return null;
+        }
+        if (idx < 0) {
+            System.out.println("Invalid task number! Please provide a positive integer!");
+        } else if (idx >= taskCount) {
+            System.out.println("Invalid task number! Not enough recorded tasks!");
+        } else {
+            return tasks[idx];
+        }
+        return null;
+    }
+
     static void addTask(Task task) {
         tasks[taskCount] = task;
         taskCount++;
-        System.out.print("Got it. I've added this task:\n\t%");
+        System.out.print("Noted. I've added this task:\n\t%");
         System.out.println(task);
-        System.out.printf("Now you have %d task%s in the list.\n", taskCount, taskCount == 1 ? "" : "s");
+        System.out.printf("Now, there are %d task%s in the list.\n", taskCount, taskCount == 1 ? "" : "s");
     }
 }
