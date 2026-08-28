@@ -1,7 +1,7 @@
 package tasks;
 
-public class Task {
-    private String name;
+public abstract class Task {
+    protected final String name;
     private boolean done;
 
     public Task(String name) {
@@ -16,5 +16,11 @@ public class Task {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public abstract String save();
+
+    public static Task construct(String[] args) {
+        return null;
     }
 }
