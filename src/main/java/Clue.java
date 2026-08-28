@@ -1,3 +1,5 @@
+import tasks.Task;
+
 import java.util.Scanner;
 
 public class Clue {
