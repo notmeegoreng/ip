@@ -95,13 +95,7 @@ public class Clue {
                     String[] parts2 = parts[1].split(" /to ", 2);
                     addTask(new Event(parts[0], parts2[0], parts2[1]));
                 }
-                default -> {
-                    if (taskCount < tasks.length) {
-                        tasks[taskCount] = new Task(command);
-                        taskCount++;
-                        System.out.println(" added: " + command);
-                    }
-                }
+                default -> System.out.println("uhh... sorry, I don't have a clue :(");
             }
 
             System.out.println(separator);
