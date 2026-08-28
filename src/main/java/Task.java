@@ -9,6 +9,10 @@ public class Task {
 
     @Override
     public String toString() {
-        return this.name;
+        return String.format("[%s] %s", this.done ? "X" : " ", this.name);
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }
