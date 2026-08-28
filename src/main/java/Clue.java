@@ -8,7 +8,7 @@ public class Clue {
                 + "| |    | |    | |  | | |___ \n"
                 + "| |    | |    | |  | |  ___| \n"
                 + "| |____| |____| |__| | |___ \n"
-                + " \\_____|______|\\____/|_____| \n";s
+                + " \\_____|______|\\____/|_____| \n";
         String separator = "____________________________________________________________";
 
         System.out.println(separator);
@@ -18,7 +18,7 @@ public class Clue {
         System.out.println(separator);
 
         Scanner scanner = new Scanner(System.in);
-        String[] tasks = new String[100];
+        Task[] tasks = new Task[100];
         int taskCount = 0;
 
         while (scanner.hasNextLine()) {
@@ -36,7 +36,7 @@ public class Clue {
                     System.out.println(" " + (i + 1) + ". " + tasks[i]);
                 }
             } else if (taskCount < tasks.length) {
-                tasks[taskCount] = command;
+                tasks[taskCount] = new Task(command);
                 taskCount++;
                 System.out.println(" added: " + command);
             }
