@@ -1,8 +1,15 @@
+import tasks.Deadline;
+import tasks.Event;
 import tasks.Task;
+import tasks.ToDo;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Clue {
+    private static int taskCount;
+    private static Task[] tasks;
+
     public static void main(String[] args) {
         String banner =
                 "  _____ _      _    _ _____ \n"
@@ -20,13 +27,14 @@ public class Clue {
         System.out.println(separator);
 
         Scanner scanner = new Scanner(System.in);
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
+        tasks = new Task[100];
+        taskCount = 0;
 
         while (scanner != null && scanner.hasNextLine()) {
-            String[] input = scanner.nextLine().split(" ", 2);
-            System.out.println(separator);
+            String in = scanner.nextLine();
+            String[] input = in.split(" ", 2);
             String command = input[0];
+            System.out.println(separator);
             switch (command) {
                 case "bye" -> {
                     System.out.println("Bye. Hope to see you again soon!");
@@ -38,6 +46,10 @@ public class Clue {
                     }
                 }
                 case "mark" -> {
+                    if (input.length == 1) {
+                        System.out.println("Please tell us which task to mark!");
+                        break;
+                    }
                     int idx;
                     try {
                         idx = Integer.parseInt(input[1]) - 1;
@@ -58,6 +70,10 @@ public class Clue {
                     }
                 }
                 case "unmark" -> {
+                    if (input.length == 1) {
+                        System.out.println("Please tell us which task to unmark!");
+                        break;
+                    }
                     int idx;
                     try {
                         idx = Integer.parseInt(input[1]) - 1;
@@ -77,6 +93,30 @@ public class Clue {
                         System.out.println(t);
                     }
                 }
+                case "todo" -> {
+                    if (input.length == 1) {
+                        System.out.println("Please tell us what this todo is called!");
+                        break;
+                    }
+                    addTask(new ToDo(input[1]));
+                }
+                case "deadline" -> {
+                    if (input.length == 1) {
+                        System.out.println("Please tell us what this deadline is called!");
+                        break;
+                    }
+                    String[] parts = input[1].split(" /by ", 2);
+                    addTask(new Deadline(parts[0], parts[1]));
+                }
+                case "event" -> {
+                    if (input.length == 1) {
+                        System.out.println("Please tell us what this event is called!");
+                        break;
+                    }
+                    String[] parts = input[1].split(" /from ", 2);
+                    String[] parts2 = parts[1].split(" /to ", 2);
+                    addTask(new Event(parts[0], parts2[0], parts2[1]));
+                }
                 default -> {
                     if (taskCount < tasks.length) {
                         tasks[taskCount] = new Task(command);
@@ -88,5 +128,13 @@ public class Clue {
 
             System.out.println(separator);
         }
+    }
+
+    static void addTask(Task task) {
+        tasks[taskCount] = task;
+        taskCount++;
+        System.out.print("Got it. I've added this task:\n\t%");
+        System.out.println(task);
+        System.out.printf("Now you have %d task%s in the list.\n", taskCount, taskCount == 1 ? "" : "s");
     }
 }
