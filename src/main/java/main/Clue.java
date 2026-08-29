@@ -7,24 +7,23 @@ import tasks.ToDo;
 
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 import java.time.LocalDateTime;
 
 public class Clue {
+    public static final String banner = """
+              _____ _      _    _ _____\s
+             / ____| |    | |  | |  ___|
+            | |    | |    | |  | | |___\s
+            | |    | |    | |  | |  ___|\s
+            | |____| |____| |__| | |___\s
+             \\_____|______|\\____/|_____|\s
+            """;
+    public static final String separator = "____________________________________________________________";
+
     private static ArrayList<Task> tasks;
 
-    public static void main(String[] args) {
-        String banner = """
-                          _____ _      _    _ _____\s
-                         / ____| |    | |  | |  ___|
-                        | |    | |    | |  | | |___\s
-                        | |    | |    | |  | |  ___|\s
-                        | |____| |____| |__| | |___\s
-                         \\_____|______|\\____/|_____|\s
-                        """;
-        String separator = "____________________________________________________________";
-
+    static void main(String[] args) {
         System.out.println(separator);
         System.out.println(banner);
         System.out.println("Hello! I'm Clue.");
