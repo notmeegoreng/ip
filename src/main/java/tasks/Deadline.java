@@ -1,6 +1,6 @@
 package tasks;
 
-import main.Storage;
+import components.Storage;
 
 import java.time.LocalDateTime;
 

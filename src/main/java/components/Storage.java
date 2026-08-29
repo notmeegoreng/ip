@@ -1,4 +1,4 @@
-package main;
+package components;
 
 import tasks.Task;
 import tasks.Deadline;
@@ -16,17 +16,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-
+/**
+ * Handle persisting and loading from the filesystem.
+ *
+ */
 public class Storage {
     public static final String SEPARATOR = "!%#";
-    public static final File FILE = new File("./data.txt");
     public static final Map<String, Class<? extends Task>> CLASSES = Map.of(
             "T", ToDo.class,
             "D", Deadline.class,
             "E", Event.class
     );
 
-    static ArrayList<Task> load() {
+    private final File FILE;
+
+    /**
+     * Create a new Storage pointing at a filepath
+     * @param filepath - the location where this class persists and loads data
+     */
+    public Storage(String filepath) {
+        FILE = new File(filepath);
+    }
+
+    public ArrayList<Task> load() {
         ArrayList<Task> lst = new ArrayList<Task>();
         try (Scanner myReader = new Scanner(FILE)) {
             while (myReader.hasNextLine()) {
@@ -48,7 +60,7 @@ public class Storage {
         return lst;
     }
 
-    static void save(List<Task> tasks) {
+    public void save(List<Task> tasks) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE))) {
             for (Task t : tasks) {
                 writer.write(t.save());

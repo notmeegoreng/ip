@@ -1,6 +1,6 @@
 package tasks;
 
-import main.Storage;
+import components.Storage;
 
 public class ToDo extends Task {
     public ToDo(String name) {

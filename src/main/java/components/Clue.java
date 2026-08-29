@@ -1,14 +1,14 @@
-package main;
+package components;
 
 import tasks.Task;
 import tasks.Deadline;
 import tasks.Event;
 import tasks.ToDo;
 
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 public class Clue {
     public static final String banner = """
@@ -21,6 +21,7 @@ public class Clue {
             """;
     public static final String separator = "____________________________________________________________";
 
+    private static final Storage storage = new Storage("./data.txt");
     private static ArrayList<Task> tasks;
 
     static void main(String[] args) {
@@ -31,7 +32,7 @@ public class Clue {
         System.out.println(separator);
 
         Scanner scanner = new Scanner(System.in);
-        tasks = Storage.load();
+        tasks = storage.load();
 
         while (scanner != null && scanner.hasNextLine()) {
             String in = scanner.nextLine();
@@ -132,7 +133,7 @@ public class Clue {
             System.out.println(separator);
         }
 
-        Storage.save(tasks);
+        storage.save(tasks);
     }
 
     static int getIndexFromInput(String unparsedInt) {
