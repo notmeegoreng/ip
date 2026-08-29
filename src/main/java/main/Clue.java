@@ -31,7 +31,7 @@ public class Clue {
         System.out.println(separator);
 
         Scanner scanner = new Scanner(System.in);
-        tasks = Saver.load();
+        tasks = Storage.load();
 
         while (scanner != null && scanner.hasNextLine()) {
             String in = scanner.nextLine();
@@ -132,7 +132,7 @@ public class Clue {
             System.out.println(separator);
         }
 
-        Saver.save(tasks);
+        Storage.save(tasks);
     }
 
     static int getIndexFromInput(String unparsedInt) {
