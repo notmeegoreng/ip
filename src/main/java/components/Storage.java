@@ -52,7 +52,7 @@ public class Storage {
                 lst.add((Task) cls.getMethod("construct", String[].class).invoke(null, (Object) parts));
             }
         } catch (FileNotFoundException e) {
-            // file does not exist yet
+            // file does not exist yet, return default empty list
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             // we failed to implement the correct methods on classes in our CLASSES mapping
             throw new RuntimeException("Unimplemented methods needed for class loading!", e);
@@ -60,7 +60,7 @@ public class Storage {
         return lst;
     }
 
-    public void save(List<Task> tasks) {
+    public boolean save(List<Task> tasks) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE))) {
             for (Task t : tasks) {
                 writer.write(t.save());
@@ -68,6 +68,8 @@ public class Storage {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 }
