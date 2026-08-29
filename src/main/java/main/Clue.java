@@ -5,8 +5,11 @@ import tasks.Deadline;
 import tasks.Event;
 import tasks.ToDo;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
+import java.time.LocalDateTime;
 
 public class Clue {
     private static ArrayList<Task> tasks;
@@ -100,7 +103,13 @@ public class Clue {
                         break;
                     }
                     String[] parts = input[1].split(" /by ", 2);
-                    addTask(new Deadline(parts[0], parts[1]));
+                    try {
+                        addTask(new Deadline(
+                                parts[0],
+                                LocalDateTime.parse(parts[1], Task.IN_FORMAT)));
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format! Example: [2026-]12-31[ 12:30]");
+                    }
                 }
                 case "event" -> {
                     if (input.length == 1) {
@@ -109,7 +118,14 @@ public class Clue {
                     }
                     String[] parts = input[1].split(" /from ", 2);
                     String[] parts2 = parts[1].split(" /to ", 2);
-                    addTask(new Event(parts[0], parts2[0], parts2[1]));
+                    try {
+                        addTask(new Event(
+                                parts[0],
+                                LocalDateTime.parse(parts2[0], Task.IN_FORMAT),
+                                LocalDateTime.parse(parts2[1], Task.IN_FORMAT)));
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format! Example: [2026-]12-31[ 12:30]");
+                    }
                 }
                 default -> System.out.println("uhh... sorry, I don't have a clue :(");
             }
