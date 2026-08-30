@@ -1,9 +1,9 @@
-package components;
+package clue.components;
 
-import tasks.Deadline;
-import tasks.Event;
-import tasks.Task;
-import tasks.ToDo;
+import clue.tasks.Deadline;
+import clue.tasks.Event;
+import clue.tasks.Task;
+import clue.tasks.ToDo;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -123,7 +123,7 @@ public class Clue {
         if (idx < 0) {
             ui.println("Invalid task number! Please provide a positive integer!");
         } else if (idx >= tasks.size()) {
-            ui.println("Invalid task number! Not enough recorded tasks!");
+            ui.println("Invalid task number! Not enough recorded clue.tasks!");
         } else {
             return idx;
         }

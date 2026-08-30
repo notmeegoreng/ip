@@ -1,4 +1,4 @@
-package components;
+package clue.components;
 
 import java.util.HashMap;
 import java.util.Map;

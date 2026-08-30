@@ -1,6 +1,6 @@
-package components;
+package clue.components;
 
-import tasks.Task;
+import clue.tasks.Task;
 
 import java.util.ArrayList;
 

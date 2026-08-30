@@ -1,6 +1,6 @@
-package tasks;
+package clue.tasks;
 
-import components.Storage;
+import clue.components.Storage;
 
 import java.time.LocalDateTime;
 

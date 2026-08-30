@@ -1,9 +1,9 @@
-package components;
+package clue.components;
 
-import tasks.Task;
-import tasks.Deadline;
-import tasks.Event;
-import tasks.ToDo;
+import clue.tasks.Task;
+import clue.tasks.Deadline;
+import clue.tasks.Event;
+import clue.tasks.ToDo;
 
 import java.io.BufferedWriter;
 import java.io.File;

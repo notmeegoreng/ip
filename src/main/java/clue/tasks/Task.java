@@ -1,4 +1,4 @@
-package tasks;
+package clue.tasks;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

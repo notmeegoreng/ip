@@ -1,4 +1,4 @@
-package components;
+package clue.components;
 
 import java.io.InputStream;
 import java.io.OutputStream;
