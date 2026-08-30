@@ -1,10 +1,5 @@
 package clue.components;
 
-import clue.tasks.Task;
-import clue.tasks.Deadline;
-import clue.tasks.Event;
-import clue.tasks.ToDo;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,6 +9,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import clue.tasks.Deadline;
+import clue.tasks.Event;
+import clue.tasks.Task;
+import clue.tasks.ToDo;
 
 /**
  * Handle persisting and loading from the filesystem.
@@ -31,6 +31,7 @@ public class Storage {
 
     /**
      * Create a new Storage pointing at a filepath
+     *
      * @param filepath - the location where this class persists and loads data
      */
     public Storage(String filepath) {
@@ -59,6 +60,12 @@ public class Storage {
         return lst;
     }
 
+    /**
+     * Persists the tasks to the file, for later retrieval with {@link load}
+     *
+     * @param tasks - The list of tasks to save.
+     * @return - Whether this operation is successful.
+     */
     public boolean save(List<Task> tasks) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE))) {
             for (Task t : tasks) {

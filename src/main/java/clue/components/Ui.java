@@ -5,7 +5,9 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-
+/**
+ * Handles all user interaction, both input and output.
+ */
 public class Ui extends PrintStream {
     public static final String banner = """
               _____ _      _    _ _____\s
@@ -18,18 +20,30 @@ public class Ui extends PrintStream {
     public static final String separator = "____________________________________________________________";
 
     public interface InputHandler {
+        /**
+         * Callback for when user input is given.
+         *
+         * @param ui - The {@link Ui} object that received this input. Write back to it to respond to the user.
+         * @param input - The text that the user gives us.
+         * @return Whether to continue listening for input.
+         */
         boolean handle(Ui ui, String input);
     }
 
     private final InputStream in;
-    private final InputHandler handler;
 
-    public Ui(InputHandler handler, InputStream in, OutputStream out) {
+    /**
+     * Create a {@link Ui} object with the given streams.
+     *
+     * @param in - The stream to listen to for user input
+     * @param out - The stream to return output to the user
+     */
+    public Ui(InputStream in, OutputStream out) {
         super(out, true);
         this.in = in;
-        this.handler = handler;
     }
 
+    /** Prints the default separator line to the output stream. */
     public void printSeparatorLine() {
         println(separator);
     }
@@ -42,7 +56,12 @@ public class Ui extends PrintStream {
         printSeparatorLine();
     }
 
-    public void listen() {
+    /**
+     * Begin listening for user input. This method will continue blocking until the input handler returns false.
+     *
+     * @param handler - Callback when user input is received.
+     */
+    public void listen(InputHandler handler) {
         preamble();
         Scanner scanner = new Scanner(in);
         boolean running = true;
@@ -50,7 +69,7 @@ public class Ui extends PrintStream {
             String in = scanner.nextLine();
 
             printSeparatorLine();
-            running = this.handler.handle(this, in);
+            running = handler.handle(this, in);
             printSeparatorLine();
         }
     }
