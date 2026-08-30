@@ -5,14 +5,14 @@ import clue.tasks.Task;
 import java.util.ArrayList;
 
 public class TaskList extends ArrayList<Task> {
-    void addTask(Ui ui, Task task) {
+    public void addTask(Ui ui, Task task) {
         add(task);
         ui.print("Noted. I've added this task:\n\t");
         ui.println(task);
         reportCount(ui);
     }
 
-    void list(Ui ui) {
+    public void list(Ui ui) {
         if (isEmpty())  {
             ui.println("nothing here...");
         }
@@ -21,7 +21,7 @@ public class TaskList extends ArrayList<Task> {
         }
     }
 
-    void reportCount(Ui ui) {
+    public void reportCount(Ui ui) {
         ui.printf(
                 "Now, there %s %d task%s in the list.\n",
                 size() == 1 ? "is": "are",
