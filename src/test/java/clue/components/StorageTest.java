@@ -9,6 +9,7 @@ import org.junit.jupiter.api.io.TempDir;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +33,7 @@ class StorageTest {
 
         assertTrue(storage.save(tasks));
         assertEquals(tasks.stream().map(Task::save).toList(),
-                storage.load().stream().map(Task::save).toList());
+                storage.load(new ArrayList<>()).stream().map(Task::save).toList());
     }
 
     @Test
@@ -42,13 +43,13 @@ class StorageTest {
 
         assertTrue(storage.save(List.of()));
         assertTrue(Files.exists(file));
-        assertTrue(storage.load().isEmpty());
+        assertTrue(storage.load(new ArrayList<>()).isEmpty());
     }
 
     @Test
     void load_missingFile_returnsEmptyTaskList() {
         Path file = temporaryDirectory.resolve("does-not-exist.txt");
 
-        assertTrue(new Storage(file.toString()).load().isEmpty());
+        assertTrue(new Storage(file.toString()).load(new ArrayList<>()).isEmpty());
     }
 }
