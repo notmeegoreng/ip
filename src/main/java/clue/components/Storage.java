@@ -37,8 +37,7 @@ public class Storage {
         FILE = new File(filepath);
     }
 
-    public TaskList load() {
-        TaskList lst = new TaskList();
+    public <T extends List<Task>> T load(T lst) {
         try (Scanner myReader = new Scanner(FILE)) {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();

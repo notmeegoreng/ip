@@ -14,7 +14,7 @@ import java.time.format.DateTimeParseException;
 
 public class Clue {
     private static final Storage storage = new Storage("./data.txt");
-    private static final TaskList tasks = storage.load();
+    private static final TaskList tasks = storage.load(new TaskList());
 
     static void main() {
         Parser parser = new Parser();
