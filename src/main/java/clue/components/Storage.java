@@ -1,10 +1,5 @@
 package clue.components;
 
-import clue.tasks.Task;
-import clue.tasks.Deadline;
-import clue.tasks.Event;
-import clue.tasks.ToDo;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,6 +9,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import clue.tasks.Deadline;
+import clue.tasks.Event;
+import clue.tasks.Task;
+import clue.tasks.ToDo;
 
 /**
  * Handle persisting and loading from the filesystem.
@@ -27,18 +27,19 @@ public class Storage {
             "E", Event.class
     );
 
-    private final File FILE;
+    private final File file;
 
     /**
      * Create a new Storage pointing at a filepath
+     *
      * @param filepath - the location where this class persists and loads data
      */
     public Storage(String filepath) {
-        FILE = new File(filepath);
+        file = new File(filepath);
     }
 
     public <T extends List<Task>> T load(T lst) {
-        try (Scanner myReader = new Scanner(FILE)) {
+        try (Scanner myReader = new Scanner(file)) {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 String[] parts = data.split(SEPARATOR);
@@ -59,7 +60,7 @@ public class Storage {
     }
 
     public boolean save(List<Task> tasks) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Task t : tasks) {
                 writer.write(t.save());
                 writer.newLine();
