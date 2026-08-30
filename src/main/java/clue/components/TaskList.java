@@ -31,6 +31,30 @@ public class TaskList extends ArrayList<Task> {
     }
 
     /**
+     * Prints tasks whose displayed text contains the supplied keyword.
+     *
+     * @param ui the interface used to display the matching tasks
+     * @param keyword the case-insensitive text to search for
+     */
+    public void find(Ui ui, String keyword) {
+        String searchTerm = keyword.toLowerCase();
+        int matchNumber = 1;
+
+        for (Task task : this) {
+            if (task.getName().toLowerCase().contains(searchTerm)) {
+                if (matchNumber == 1) {
+                    ui.println("Here are the matching tasks in your list:");
+                }
+                ui.println(" " + matchNumber + "." + task);
+                matchNumber++;
+            }
+        }
+        if (matchNumber == 1) {
+            ui.println("No matching tasks found.");
+        }
+    }
+
+    /**
      * Reports the count of items list to the given Ui object.
      */
     public void reportCount(Ui ui) {

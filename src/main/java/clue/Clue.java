@@ -37,6 +37,14 @@ public class Clue {
             tasks.list(ui);
             return true;
         });
+        parser.register("find", (ui, args) -> {
+            if (args.isEmpty()) {
+                ui.println("Please provide a keyword to search for!");
+            } else {
+                tasks.find(ui, args.get(""));
+            }
+            return true;
+        });
         parser.register("mark", (ui, args) -> {
             if (args.isEmpty()) {
                 ui.println("Please tell us which task to mark!");

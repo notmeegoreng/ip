@@ -41,10 +41,6 @@ public abstract class Task {
         return String.format("[%s] %s", this.done ? "X" : " ", this.name);
     }
 
-    public void setDone(boolean done) {
-        this.done = done;
-    }
-
     public abstract String save();
 
     public static Task construct(String[] _args) {
@@ -68,5 +64,13 @@ public abstract class Task {
         } catch (DateTimeParseException e) {
             return defaultDate();
         }
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }
