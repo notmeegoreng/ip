@@ -7,20 +7,18 @@ import tasks.ToDo;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 
 public class Clue {
     private static final Storage storage = new Storage("./data.txt");
-
-    private static final ArrayList<Task> tasks = storage.load();
+    private static final TaskList tasks = storage.load();
 
     static void main() {
-        Parser parser = new Parser(storage.load());
+        Parser parser = new Parser();
         register(parser);
         try (Ui ui = new Ui(parser, System.in, System.out)) {
             ui.listen();
         } finally {
-            if (!storage.save(parser.getTasks())) {
+            if (!storage.save(tasks)) {
                 System.out.println("An error occurred when trying to save!");
             }
         }
@@ -32,12 +30,7 @@ public class Clue {
             return false;
         });
         parser.register("list", (ui, _) -> {
-            if (tasks.isEmpty())  {
-                ui.println("nothing here...");
-            }
-            for (int i = 1; i <= tasks.size(); i++) {
-                ui.println(" " + i + ". " + tasks.get(i - 1));
-            }
+            tasks.list(ui);
             return true;
         });
         parser.register("mark", (ui, args) -> {
@@ -82,7 +75,7 @@ public class Clue {
             Task t = tasks.remove(idx);
             ui.print("Alright, deleted this task:\n\t");
             ui.println(t);
-            reportCount(ui);
+            tasks.reportCount(ui);
             return true;
         });
         parser.register("todo", (ui, args) -> {
@@ -90,7 +83,7 @@ public class Clue {
                 ui.println("Please tell us what this todo is called!");
                 return true;
             }
-            addTask(ui, new ToDo(args.get("")));
+            tasks.addTask(ui, new ToDo(args.get("")));
             return true;
         });
         parser.register("deadline", (ui, args) -> {
@@ -100,7 +93,7 @@ public class Clue {
             }
             LocalDateTime by = parseDate(ui, args.get("by"));
             if (by != null) {
-                addTask(ui, new Deadline(args.get(""), by));
+                tasks.addTask(ui, new Deadline(args.get(""), by));
             }
             return true;
         });
@@ -113,7 +106,7 @@ public class Clue {
             LocalDateTime to = parseDate(ui, args.get("to"));
 
             if (from != null && to != null) {
-                addTask(ui, new Event(args.get(""), from, to));
+                tasks.addTask(ui, new Event(args.get(""), from, to));
             }
             return true;
         });
@@ -150,20 +143,5 @@ public class Clue {
             }
         }
         return out;
-    }
-
-    static void addTask(Ui ui, Task task) {
-        tasks.add(task);
-        ui.print("Noted. I've added this task:\n\t");
-        ui.println(task);
-        reportCount(ui);
-    }
-
-    static void reportCount(Ui ui) {
-        ui.printf(
-                "Now, there %s %d task%s in the list.\n",
-                tasks.size() == 1 ? "is": "are",
-                tasks.size(),
-                tasks.size() == 1 ? "" : "s");
     }
 }

@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -38,8 +37,8 @@ public class Storage {
         FILE = new File(filepath);
     }
 
-    public ArrayList<Task> load() {
-        ArrayList<Task> lst = new ArrayList<Task>();
+    public TaskList load() {
+        TaskList lst = new TaskList();
         try (Scanner myReader = new Scanner(FILE)) {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();

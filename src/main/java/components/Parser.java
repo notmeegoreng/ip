@@ -1,8 +1,5 @@
 package components;
 
-import tasks.Task;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -20,20 +17,14 @@ public class Parser implements Ui.InputHandler {
 
     public static final Pattern argumentRegex = Pattern.compile("/(.+?)");
 
-    private final ArrayList<Task> tasks;
     private final HashMap<String, Command> commands;
 
-    public Parser(ArrayList<Task> tasks) {
-        this.tasks = tasks;
+    public Parser() {
         this.commands = new HashMap<>();
     }
 
     public void register(String name, Command command) {
         this.commands.put(name, command);
-    }
-
-    public ArrayList<Task> getTasks() {
-        return tasks;
     }
 
     @Override
