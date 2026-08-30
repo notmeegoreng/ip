@@ -19,8 +19,8 @@ public class Clue {
     static void main() {
         Parser parser = new Parser();
         register(parser);
-        try (Ui ui = new Ui(parser, System.in, System.out)) {
-            ui.listen();
+        try (Ui ui = new Ui(System.in, System.out)) {
+            ui.listen(parser);
         } finally {
             if (!storage.save(tasks)) {
                 System.out.println("An error occurred when trying to save!");

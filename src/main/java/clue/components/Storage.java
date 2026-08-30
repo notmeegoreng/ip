@@ -59,6 +59,12 @@ public class Storage {
         return lst;
     }
 
+    /**
+     * Persists the tasks to the file, for later retrieval with {@link load}
+     *
+     * @param tasks - The list of tasks to save.
+     * @return - Whether this operation is successful.
+     */
     public boolean save(List<Task> tasks) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Task t : tasks) {

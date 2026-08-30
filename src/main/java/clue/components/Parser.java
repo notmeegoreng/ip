@@ -5,16 +5,29 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Parses user commands and arguments and dispatches them to defined handlers.
+ */
 public class Parser implements Ui.InputHandler {
     public interface Command {
+        /**
+         * Response to a specific user command.
+         *
+         * @param ui - Ui object for writing back to the user.
+         * @param args - A mapping of /key value arguments.
+         *               If nonempty, always contains a "" key for the argument without any name.
+         * @return boolean for whether to continue running. If false, initiates shutdown of the program.
+         */
         boolean run(Ui ui, Map<String, String> args);
     }
 
+    /** Handler that is run when the user's command is unrecognized. */
     public static final Command defaultCommand = (ui, _) -> {
         ui.println("uhh... sorry, I don't have a clue :(");
         return true;
     };
 
+    /** Regex to match for named arguments. */
     public static final Pattern argumentRegex = Pattern.compile("/(.+?)");
 
     private final HashMap<String, Command> commands;
@@ -23,6 +36,12 @@ public class Parser implements Ui.InputHandler {
         this.commands = new HashMap<>();
     }
 
+    /**
+     * Registers a handler for a given command name.
+     *
+     * @param name - Name of the command. When the user starts their input with this name, this command is run.
+     * @param command - Callback when this command is activated.
+     */
     public void register(String name, Command command) {
         this.commands.put(name, command);
     }
