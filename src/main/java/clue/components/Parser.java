@@ -46,7 +46,7 @@ public class Parser implements Ui.InputHandler {
                 name = matcher.group(1);
                 idx = matcher.end();
             }
-            args.put(name, in.substring(idx));
+            args.put(name, in.substring(idx).trim());
         }
 
         return this.commands.getOrDefault(command, defaultCommand).run(ui, args);
