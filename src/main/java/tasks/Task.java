@@ -47,7 +47,7 @@ public abstract class Task {
 
     public abstract String save();
 
-    public static Task construct(String[] args) {
+    public static Task construct(String[] _args) {
         return null;
     }
 
@@ -58,11 +58,15 @@ public abstract class Task {
         return date.format(OUT_FORMAT);
     }
 
+    public static LocalDateTime defaultDate() {
+        return LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
+    }
+
     static LocalDateTime tryParseDate(String date) {
         try {
             return LocalDateTime.parse(date);
         } catch (DateTimeParseException e) {
-            return LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
+            return defaultDate();
         }
     }
 }
