@@ -1,13 +1,14 @@
 package clue.components;
 
-import clue.tasks.ToDo;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+
+import clue.tasks.ToDo;
 
 /** Tests searching for tasks in a {@link TaskList}. */
 class TaskListTest {

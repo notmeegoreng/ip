@@ -1,8 +1,8 @@
 package clue.components;
 
-import clue.tasks.Task;
-
 import java.util.ArrayList;
+
+import clue.tasks.Task;
 
 /**
  * A list of tasks with reporting to keep the user updated.
@@ -22,7 +22,7 @@ public class TaskList extends ArrayList<Task> {
      * Outputs all items in the list to the given Ui object.
      */
     public void list(Ui ui) {
-        if (isEmpty())  {
+        if (isEmpty()) {
             ui.println("nothing here...");
         }
         for (int i = 1; i <= size(); i++) {
@@ -60,7 +60,7 @@ public class TaskList extends ArrayList<Task> {
     public void reportCount(Ui ui) {
         ui.printf(
                 "Now, there %s %d task%s in the list.\n",
-                size() == 1 ? "is": "are",
+                size() == 1 ? "is" : "are",
                 size(),
                 size() == 1 ? "" : "s");
     }

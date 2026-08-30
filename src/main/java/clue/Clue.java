@@ -1,5 +1,8 @@
 package clue;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+
 import clue.components.Parser;
 import clue.components.Storage;
 import clue.components.TaskList;
@@ -9,9 +12,7 @@ import clue.tasks.Event;
 import clue.tasks.Task;
 import clue.tasks.ToDo;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
-
+/** Main class of the program. Registers the commands and runs the chatbot. */
 public class Clue {
     private static final Storage storage = new Storage("./data.txt");
     private static final TaskList tasks = storage.load(new TaskList());

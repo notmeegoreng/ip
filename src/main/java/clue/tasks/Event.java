@@ -1,13 +1,15 @@
 package clue.tasks;
 
-import clue.components.Storage;
-
 import java.time.LocalDateTime;
 
+import clue.components.Storage;
+
+/** An Event, storing a {@link from} and {@link to} time in addition to the base class. */
 public class Event extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
 
+    /** Constructs an Event with the given name and from and to times. */
     public Event(String name, LocalDateTime from, LocalDateTime to) {
         super(name);
         this.from = from;
@@ -20,6 +22,7 @@ public class Event extends Task {
                 displayDate(this.from), displayDate(this.to));
     }
 
+    @Override
     public String save() {
         return String.join(Storage.SEPARATOR, "E", this.name,
                 this.from.toString(), this.to.toString());

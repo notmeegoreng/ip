@@ -1,10 +1,7 @@
 package clue.components;
 
-import clue.tasks.Event;
-import clue.tasks.Task;
-import clue.tasks.ToDo;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,8 +9,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import clue.tasks.Event;
+import clue.tasks.Task;
+import clue.tasks.ToDo;
+
 
 /** Tests saving and loading tasks through {@link Storage}. */
 class StorageTest {
@@ -37,7 +39,7 @@ class StorageTest {
     }
 
     @Test
-    void save_emptyTaskList_createsEmptyStorageFile() throws Exception {
+    void save_emptyTaskList_createsEmptyStorageFile() {
         Path file = temporaryDirectory.resolve("tasks.txt");
         Storage storage = new Storage(file.toString());
 

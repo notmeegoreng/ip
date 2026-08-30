@@ -10,10 +10,8 @@ import java.time.format.FormatStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
+/** Task base class. Contains some constants useful for its children, and keeps track of name and completion status. */
 public abstract class Task {
-    protected final String name;
-    private boolean done;
-
     public static final DateTimeFormatter IN_FORMAT = new DateTimeFormatterBuilder()
             .optionalStart()
             .appendPattern("yyyy-")
@@ -31,6 +29,11 @@ public abstract class Task {
     public static final DateTimeFormatter OUT_DATE_FORMAT = DateTimeFormatter
             .ofPattern("dd/MM/yy");
 
+
+    protected final String name;
+    private boolean done;
+
+    /** Constructs a task with the given name, and a default completion state of false. */
     public Task(String name) {
         this.name = name;
         this.done = false;
@@ -41,9 +44,11 @@ public abstract class Task {
         return String.format("[%s] %s", this.done ? "X" : " ", this.name);
     }
 
+    /** Serialisation of this task to a string. Used to reconstruct the task using {@link construct}. */
     public abstract String save();
 
-    public static Task construct(String[] _args) {
+    /** Recreates the task using parts returned by {@link save}. */
+    public static Task construct(String[] args) {
         return null;
     }
 
