@@ -1,6 +1,6 @@
 package tasks;
 
-import main.Saver;
+import components.Storage;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +21,7 @@ public class Event extends Task {
     }
 
     public String save() {
-        return String.join(Saver.SEPARATOR, "E", this.name,
+        return String.join(Storage.SEPARATOR, "E", this.name,
                 this.from.toString(), this.to.toString());
     }
 

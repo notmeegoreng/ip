@@ -1,6 +1,6 @@
 package tasks;
 
-import main.Saver;
+import components.Storage;
 
 public class ToDo extends Task {
     public ToDo(String name) {
@@ -13,7 +13,7 @@ public class ToDo extends Task {
     }
 
     public String save() {
-        return String.join(Saver.SEPARATOR, "T", this.name);
+        return String.join(Storage.SEPARATOR, "T", this.name);
     }
 
     public static Task construct(String[] args) {

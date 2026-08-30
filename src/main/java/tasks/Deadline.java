@@ -1,6 +1,6 @@
 package tasks;
 
-import main.Saver;
+import components.Storage;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +18,7 @@ public class Deadline extends Task {
     }
 
     public String save() {
-        return String.join(Saver.SEPARATOR, "D", this.name, this.by.toString());
+        return String.join(Storage.SEPARATOR, "D", this.name, this.by.toString());
     }
 
     public static Task construct(String[] args) {
