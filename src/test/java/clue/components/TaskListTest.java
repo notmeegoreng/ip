@@ -19,7 +19,7 @@ class TaskListTest {
         tasks.add(new ToDo("buy milk"));
         tasks.add(new ToDo("return BOOK"));
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        Ui ui = new Ui(null, System.in, output);
+        Ui ui = new Ui(System.in, output);
 
         tasks.find(ui, "book");
 
@@ -35,7 +35,7 @@ class TaskListTest {
         TaskList tasks = new TaskList();
         tasks.add(new ToDo("read book"));
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        Ui ui = new Ui(null, System.in, output);
+        Ui ui = new Ui(System.in, output);
 
         tasks.find(ui, "movie");
 
