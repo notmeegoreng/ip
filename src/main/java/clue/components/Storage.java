@@ -27,7 +27,7 @@ public class Storage {
             "E", Event.class
     );
 
-    private final File FILE;
+    private final File file;
 
     /**
      * Create a new Storage pointing at a filepath
@@ -35,12 +35,12 @@ public class Storage {
      * @param filepath - the location where this class persists and loads data
      */
     public Storage(String filepath) {
-        FILE = new File(filepath);
+        file = new File(filepath);
     }
 
     public TaskList load() {
         TaskList lst = new TaskList();
-        try (Scanner myReader = new Scanner(FILE)) {
+        try (Scanner myReader = new Scanner(file)) {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
                 String[] parts = data.split(SEPARATOR);
@@ -61,7 +61,7 @@ public class Storage {
     }
 
     public boolean save(List<Task> tasks) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Task t : tasks) {
                 writer.write(t.save());
                 writer.newLine();
