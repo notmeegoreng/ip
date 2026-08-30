@@ -38,6 +38,10 @@ public class Storage {
         file = new File(filepath);
     }
 
+    /**
+     *  Loads tasks from the filepath into the given list.
+     * @param lst - List to append the tasks to.
+     */
     public <T extends List<Task>> T load(T lst) {
         try (Scanner myReader = new Scanner(file)) {
             while (myReader.hasNextLine()) {

@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Handles all user interaction, both input and output.
  */
 public class Ui extends PrintStream {
-    public static final String banner = """
+    public static final String BANNER = """
               _____ _      _    _ _____\s
              / ____| |    | |  | |  ___|
             | |    | |    | |  | | |___\s
@@ -17,8 +17,9 @@ public class Ui extends PrintStream {
             | |____| |____| |__| | |___\s
              \\_____|______|\\____/|_____|\s
             """;
-    public static final String separator = "____________________________________________________________";
+    public static final String SEPARATOR = "____________________________________________________________";
 
+    /** Interface for input handling callback */
     public interface InputHandler {
         /**
          * Callback for when user input is given.
@@ -45,12 +46,12 @@ public class Ui extends PrintStream {
 
     /** Prints the default separator line to the output stream. */
     public void printSeparatorLine() {
-        println(separator);
+        println(SEPARATOR);
     }
 
     void preamble() {
         printSeparatorLine();
-        println(banner);
+        println(BANNER);
         println("Hello! I'm Clue.");
         println("What can I do for you?");
         printSeparatorLine();

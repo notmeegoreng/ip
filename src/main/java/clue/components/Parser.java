@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
  * Parses user commands and arguments and dispatches them to defined handlers.
  */
 public class Parser implements Ui.InputHandler {
+    /** Command response callback */
     public interface Command {
         /**
          * Response to a specific user command.
@@ -22,13 +23,13 @@ public class Parser implements Ui.InputHandler {
     }
 
     /** Handler that is run when the user's command is unrecognized. */
-    public static final Command defaultCommand = (ui, _) -> {
+    public static final Command DEFAULT_COMMAND = (ui, _) -> {
         ui.println("uhh... sorry, I don't have a clue :(");
         return true;
     };
 
     /** Regex to match for named arguments. */
-    public static final Pattern argumentRegex = Pattern.compile("/(.+?)");
+    public static final Pattern ARGUMENT_REGEX = Pattern.compile("/(.+?)");
 
     private final HashMap<String, Command> commands;
 
@@ -57,7 +58,7 @@ public class Parser implements Ui.InputHandler {
             args = Map.of();
         } else {
             command = in.substring(0, idx);
-            Matcher matcher = argumentRegex.matcher(in).region(0, idx);
+            Matcher matcher = ARGUMENT_REGEX.matcher(in).region(0, idx);
             String name = "";
             args = new HashMap<>();
             while (matcher.find()) {
@@ -68,6 +69,6 @@ public class Parser implements Ui.InputHandler {
             args.put(name, in.substring(idx).trim());
         }
 
-        return this.commands.getOrDefault(command, defaultCommand).run(ui, args);
+        return this.commands.getOrDefault(command, DEFAULT_COMMAND).run(ui, args);
     }
 }
