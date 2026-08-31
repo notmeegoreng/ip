@@ -28,7 +28,7 @@ public class Event extends Task {
                 this.from.toString(), this.to.toString());
     }
 
-    public static Task construct(String[] args) {
+    public static Task construct(String... args) {
         return new Event(args[1], tryParseDate(args[2]), tryParseDate(args[3]));
     }
 }
