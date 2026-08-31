@@ -45,7 +45,7 @@ public abstract class Task {
     }
 
     /** Serialisation of this task to a string. Used to reconstruct the task using {@link construct}. */
-    public abstract String save();
+    public abstract String save(String separator);
 
     /** Recreates the task using parts returned by {@link save}. */
     public static Task construct(String... args) {

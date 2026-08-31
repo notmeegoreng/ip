@@ -16,7 +16,6 @@ import clue.tasks.Event;
 import clue.tasks.Task;
 import clue.tasks.ToDo;
 
-
 /** Tests saving and loading tasks through {@link Storage}. */
 class StorageTest {
 
@@ -34,8 +33,8 @@ class StorageTest {
                         LocalDateTime.of(2026, 9, 1, 11, 0)));
 
         assertTrue(storage.save(tasks));
-        assertEquals(tasks.stream().map(Task::save).toList(),
-                storage.load(new ArrayList<>()).stream().map(Task::save).toList());
+        assertEquals(tasks.stream().map(t -> t.save(Storage.SEPARATOR)).toList(),
+                storage.load(new ArrayList<>()).stream().map(t -> t.save(Storage.SEPARATOR)).toList());
     }
 
     @Test

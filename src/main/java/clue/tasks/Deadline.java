@@ -2,8 +2,6 @@ package clue.tasks;
 
 import java.time.LocalDateTime;
 
-import clue.components.Storage;
-
 /** A Deadline, storing a {@link by} time on top of the base class. */
 public class Deadline extends Task {
     private final LocalDateTime by;
@@ -20,8 +18,8 @@ public class Deadline extends Task {
     }
 
     @Override
-    public String save() {
-        return String.join(Storage.SEPARATOR, "D", this.name, this.by.toString());
+    public String save(String separator) {
+        return String.join(separator, "D", this.name, this.by.toString());
     }
 
     public static Task construct(String... args) {

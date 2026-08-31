@@ -72,7 +72,7 @@ public class Storage {
     public boolean save(List<Task> tasks) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Task t : tasks) {
-                writer.write(t.save());
+                writer.write(t.save(SEPARATOR));
                 writer.newLine();
             }
         } catch (IOException e) {

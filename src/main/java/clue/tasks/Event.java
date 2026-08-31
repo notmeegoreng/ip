@@ -2,8 +2,6 @@ package clue.tasks;
 
 import java.time.LocalDateTime;
 
-import clue.components.Storage;
-
 /** An Event, storing a {@link from} and {@link to} time in addition to the base class. */
 public class Event extends Task {
     private final LocalDateTime from;
@@ -23,8 +21,8 @@ public class Event extends Task {
     }
 
     @Override
-    public String save() {
-        return String.join(Storage.SEPARATOR, "E", this.name,
+    public String save(String separator) {
+        return String.join(separator, "E", this.name,
                 this.from.toString(), this.to.toString());
     }
 

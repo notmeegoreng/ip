@@ -1,7 +1,5 @@
 package clue.tasks;
 
-import clue.components.Storage;
-
 /** A basic task, does not store anything on top of the base class. */
 public class ToDo extends Task {
     public ToDo(String name) {
@@ -14,8 +12,8 @@ public class ToDo extends Task {
     }
 
     @Override
-    public String save() {
-        return String.join(Storage.SEPARATOR, "T", this.name);
+    public String save(String separator) {
+        return String.join(separator, "T", this.name);
     }
 
     public static Task construct(String... args) {
