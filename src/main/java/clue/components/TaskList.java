@@ -3,6 +3,7 @@ package clue.components;
 import java.util.ArrayList;
 
 import clue.tasks.Task;
+import clue.ui.Ui;
 
 /**
  * A list of tasks with reporting to keep the user updated.

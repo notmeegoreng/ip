@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException;
 import clue.components.Parser;
 import clue.components.Storage;
 import clue.components.TaskList;
-import clue.components.Ui;
+import clue.ui.Ui;
 import clue.tasks.Deadline;
 import clue.tasks.Event;
 import clue.tasks.Task;
