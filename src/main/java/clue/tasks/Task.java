@@ -48,7 +48,7 @@ public abstract class Task {
     public abstract String save();
 
     /** Recreates the task using parts returned by {@link save}. */
-    public static Task construct(String[] args) {
+    public static Task construct(String... args) {
         return null;
     }
 

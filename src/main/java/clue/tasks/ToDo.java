@@ -18,7 +18,7 @@ public class ToDo extends Task {
         return String.join(Storage.SEPARATOR, "T", this.name);
     }
 
-    public static Task construct(String[] args) {
+    public static Task construct(String... args) {
         return new ToDo(args[1]);
     }
 }

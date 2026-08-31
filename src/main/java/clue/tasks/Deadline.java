@@ -24,7 +24,7 @@ public class Deadline extends Task {
         return String.join(Storage.SEPARATOR, "D", this.name, this.by.toString());
     }
 
-    public static Task construct(String[] args) {
+    public static Task construct(String... args) {
         return new Deadline(args[1], tryParseDate(args[2]));
     }
 }
