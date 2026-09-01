@@ -2,13 +2,14 @@ package clue.ui;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Scanner;
 
 /**
  * Handles all user interaction, both input and output.
  */
-public class Ui extends PrintStream {
+public class Ui extends PrintWriter {
     public static final String BANNER = """
               _____ _      _    _ _____\s
              / ____| |    | |  | |  ___|
@@ -18,6 +19,7 @@ public class Ui extends PrintStream {
              \\_____|______|\\____/|_____|\s
             """;
     public static final String SEPARATOR = "____________________________________________________________";
+    private final InputHandler handler;
 
     /** Interface for input handling callback */
     public interface InputHandler {
@@ -34,14 +36,29 @@ public class Ui extends PrintStream {
     private final InputStream in;
 
     /**
-     * Create a {@link Ui} object with the given streams.
+     * Create a {@link Ui} object with the given handler and streams.
      *
-     * @param in - The stream to listen to for user input
-     * @param out - The stream to return output to the user
+     * @param handler - The callback to respond to user input.
+     * @param in - The stream to listen to for user input.
+     * @param out - The stream to return output to the user.
      */
-    public Ui(InputStream in, OutputStream out) {
+    public Ui(InputHandler handler, InputStream in, OutputStream out) {
         super(out, true);
         this.in = in;
+        this.handler = handler;
+    }
+
+    /**
+     * Create a {@link Ui} object with the given handler stream and writer.
+     *
+     * @param handler - The callback to respond to user input.
+     * @param in - The stream to listen to for user input.
+     * @param out - The stream to return output to the user.
+     */
+    public Ui(InputHandler handler, InputStream in, Writer out) {
+        super(out, true);
+        this.in = in;
+        this.handler = handler;
     }
 
     /** Prints the default separator line to the output stream. */
@@ -58,20 +75,22 @@ public class Ui extends PrintStream {
     }
 
     /**
-     * Begin listening for user input. This method will continue blocking until the input handler returns false.
-     *
-     * @param handler - Callback when user input is received.
+     * Begins listening for user input. This method will block.
+     * Returns after the input handler returns false or the input stream empties.
      */
-    public void listen(InputHandler handler) {
+    public void listen() {
         preamble();
         Scanner scanner = new Scanner(in);
         boolean running = true;
         while (running && scanner.hasNextLine()) {
-            String in = scanner.nextLine();
-
             printSeparatorLine();
-            running = handler.handle(this, in);
+            running = receive(scanner.nextLine());
             printSeparatorLine();
         }
+    }
+
+    /** Triggers the input handler on receiving a line of input. */
+    public boolean receive(String in) {
+        return this.handler.handle(this, in);
     }
 }

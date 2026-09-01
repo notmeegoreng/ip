@@ -6,27 +6,42 @@ import java.time.format.DateTimeParseException;
 import clue.components.Parser;
 import clue.components.Storage;
 import clue.components.TaskList;
+import clue.ui.Gui;
 import clue.ui.Ui;
 import clue.tasks.Deadline;
 import clue.tasks.Event;
 import clue.tasks.Task;
 import clue.tasks.ToDo;
+import javafx.application.Application;
 
 /** Main class of the program. Registers the commands and runs the chatbot. */
 public class Clue {
     private static final Storage storage = new Storage("./data.txt");
     private static final TaskList tasks = storage.load(new TaskList());
 
-    static void main() {
-        Parser parser = new Parser();
+    private static final Parser parser = new Parser();
+
+    static void main(String[] args) {
         register(parser);
-        try (Ui ui = new Ui(System.in, System.out)) {
-            ui.listen(parser);
+
+        // Command line based system
+        // Ui ui = new Ui(parser, System.in, System.out);
+
+        // GUI system
+
+        try {
+            // ui.listen();
+            Application.launch(Gui.class, args);
         } finally {
             if (!storage.save(tasks)) {
                 System.out.println("An error occurred when trying to save!");
             }
         }
+    }
+
+    /** Returns the current Parser object. */
+    public static Parser getParser() {
+        return parser;
     }
 
     static void register(Parser parser) {
