@@ -22,7 +22,7 @@ public class Clue {
     private static final Parser parser = new Parser();
 
     static void main(String[] args) {
-        register(parser);
+        register();
 
         // Command line based system
         // Ui ui = new Ui(parser, System.in, System.out);
@@ -44,7 +44,7 @@ public class Clue {
         return parser;
     }
 
-    static void register(Parser parser) {
+    static void register() {
         parser.register("bye", (ui, _) -> {
             ui.println("Bye. Hope to see you again soon!");
             return false;
@@ -101,7 +101,7 @@ public class Clue {
                 return true;
             }
             Task t = tasks.remove(idx);
-            ui.print("Alright, deleted this task:\n\t");
+            ui.println("Alright, deleted this task:");
             ui.println(t);
             tasks.reportCount(ui);
             return true;

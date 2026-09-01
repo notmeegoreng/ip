@@ -6,7 +6,7 @@
 
 <fx:root prefHeight="0.0" type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="text" style="-fx-background-color: &quot;#66ff66&quot;; -fx-background-radius: 4;" wrapText="true">
+      <Label fx:id="text" style="-fx-background-color: #66ff66; -fx-background-radius: 4;" wrapText="true">
          <HBox.margin>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
          </HBox.margin>
