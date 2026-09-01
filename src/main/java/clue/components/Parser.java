@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
  */
 public class Parser implements Ui.InputHandler {
     /** Command response callback */
+    @FunctionalInterface
     public interface Command {
         /**
          * Response to a specific user command.

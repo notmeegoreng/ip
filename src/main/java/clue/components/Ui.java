@@ -20,6 +20,7 @@ public class Ui extends PrintStream {
     public static final String SEPARATOR = "____________________________________________________________";
 
     /** Interface for input handling callback */
+    @FunctionalInterface
     public interface InputHandler {
         /**
          * Callback for when user input is given.
@@ -64,6 +65,7 @@ public class Ui extends PrintStream {
      */
     public void listen(InputHandler handler) {
         preamble();
+
         Scanner scanner = new Scanner(in);
         boolean running = true;
         while (running && scanner.hasNextLine()) {
