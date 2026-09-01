@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import clue.ui.Ui;
+
 /**
  * Parses user commands and arguments and dispatches them to defined handlers.
  */

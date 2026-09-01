@@ -6,22 +6,32 @@ import java.time.format.DateTimeParseException;
 import clue.components.Parser;
 import clue.components.Storage;
 import clue.components.TaskList;
-import clue.components.Ui;
+import clue.ui.Gui;
+import clue.ui.Ui;
 import clue.tasks.Deadline;
 import clue.tasks.Event;
 import clue.tasks.Task;
 import clue.tasks.ToDo;
+import javafx.application.Application;
 
 /** Main class of the program. Registers the commands and runs the chatbot. */
 public class Clue {
     private static final Storage storage = new Storage("./data.txt");
     private static final TaskList tasks = storage.load(new TaskList());
 
-    static void main() {
-        Parser parser = new Parser();
-        register(parser);
-        try (Ui ui = new Ui(System.in, System.out)) {
-            ui.listen(parser);
+    private static final Parser parser = new Parser();
+
+    static void main(String[] args) {
+        register();
+
+        // Command line based system
+        // Ui ui = new Ui(parser, System.in, System.out);
+
+        // GUI system
+
+        try {
+            // ui.listen();
+            Application.launch(Gui.class, args);
         } finally {
             if (!storage.save(tasks)) {
                 System.out.println("An error occurred when trying to save!");
@@ -29,7 +39,12 @@ public class Clue {
         }
     }
 
-    static void register(Parser parser) {
+    /** Returns the current Parser object. */
+    public static Parser getParser() {
+        return parser;
+    }
+
+    static void register() {
         parser.register("bye", (ui, _) -> {
             ui.println("Bye. Hope to see you again soon!");
             return false;
@@ -86,7 +101,7 @@ public class Clue {
                 return true;
             }
             Task t = tasks.remove(idx);
-            ui.print("Alright, deleted this task:\n\t");
+            ui.println("Alright, deleted this task:");
             ui.println(t);
             tasks.reportCount(ui);
             return true;

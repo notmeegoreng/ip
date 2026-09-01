@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 import clue.tasks.ToDo;
+import clue.ui.Ui;
 
 /** Tests searching for tasks in a {@link TaskList}. */
 class TaskListTest {
