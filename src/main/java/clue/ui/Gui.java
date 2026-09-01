@@ -42,6 +42,7 @@ public class Gui extends Application {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(messages.heightProperty());
+        ui.preamble();
     }
 
     @Override

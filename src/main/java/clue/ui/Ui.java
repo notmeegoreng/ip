@@ -11,11 +11,11 @@ import java.util.Scanner;
  */
 public class Ui extends PrintWriter {
     public static final String BANNER = """
-              _____ _      _    _ _____\s
-             / ____| |    | |  | |  ___|
-            | |    | |    | |  | | |___\s
+              _____ _      _    _ _____ \s
+             / ____| |    | |  | |  ___|\s
+            | |    | |    | |  | | |___ \s
             | |    | |    | |  | |  ___|\s
-            | |____| |____| |__| | |___\s
+            | |____| |____| |__| | |___ \s
              \\_____|______|\\____/|_____|\s
             """;
     public static final String SEPARATOR = "____________________________________________________________";
@@ -67,11 +67,9 @@ public class Ui extends PrintWriter {
     }
 
     void preamble() {
-        printSeparatorLine();
         println(BANNER);
         println("Hello! I'm Clue.");
         println("What can I do for you?");
-        printSeparatorLine();
     }
 
     /**
@@ -79,7 +77,9 @@ public class Ui extends PrintWriter {
      * Returns after the input handler returns false or the input stream empties.
      */
     public void listen() {
+        printSeparatorLine();
         preamble();
+        printSeparatorLine();
         Scanner scanner = new Scanner(in);
         boolean running = true;
         while (running && scanner.hasNextLine()) {
