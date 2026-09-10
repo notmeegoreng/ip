@@ -49,7 +49,8 @@ public class Storage {
                 String[] parts = data.split(SEPARATOR);
                 Class<? extends Task> cls = CLASSES.get(parts[0]);
                 if (cls == null) {
-                    // corruption?
+                    // corruption or new task version which we cannot handle
+                    // ignore this line
                     continue;
                 }
                 lst.add((Task) cls.getMethod("construct", String[].class).invoke(null, (Object) parts));
