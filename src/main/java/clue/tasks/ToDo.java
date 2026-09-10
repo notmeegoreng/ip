@@ -17,6 +17,7 @@ public class ToDo extends Task {
     }
 
     public static Task construct(String... args) {
+        assert args.length == 2;
         return new ToDo(args[1]);
     }
 }
