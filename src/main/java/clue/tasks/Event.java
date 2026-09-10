@@ -27,6 +27,7 @@ public class Event extends Task {
     }
 
     public static Task construct(String... args) {
+        assert args.length == 4;
         return new Event(args[1], tryParseDate(args[2]), tryParseDate(args[3]));
     }
 }
