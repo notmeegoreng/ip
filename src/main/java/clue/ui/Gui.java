@@ -67,7 +67,7 @@ public class Gui extends Application {
      * @param stage the primary stage for this application.
      *
      * @throws IOException
-     * May throw IOException if the main window's FXML cannot be found.
+     * May throw IOException if the main window's FXML cannot be found, or other loading error.
      */
     @Override
     public void start(Stage stage) throws IOException {
