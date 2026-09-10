@@ -25,9 +25,12 @@ public class TaskList extends ArrayList<Task> {
     public void list(Ui ui) {
         if (isEmpty()) {
             ui.println("nothing here...");
+            return;
         }
-        for (int i = 1; i <= size(); i++) {
-            ui.println(" " + i + ". " + get(i - 1));
+
+        int i = 1;
+        for (Task task : this) {
+            printTask(ui, i++, task);
         }
     }
 
@@ -46,7 +49,7 @@ public class TaskList extends ArrayList<Task> {
                 if (matchNumber == 1) {
                     ui.println("Here are the matching tasks in your list:");
                 }
-                ui.println(" " + matchNumber + "." + task);
+                printTask(ui, matchNumber, task);
                 matchNumber++;
             }
         }
@@ -55,8 +58,13 @@ public class TaskList extends ArrayList<Task> {
         }
     }
 
+    /** Print out a single task as part of a list with the given index. */
+    private static void printTask(Ui ui, int index, Task task) {
+        ui.println(" " + index + "." + task);
+    }
+
     /**
-     * Reports the count of items list to the given Ui object.
+     * Reports the count of items in the list.
      */
     public void reportCount(Ui ui) {
         ui.printf(
