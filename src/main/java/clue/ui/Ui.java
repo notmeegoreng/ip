@@ -67,7 +67,8 @@ public class Ui extends PrintWriter {
         println(SEPARATOR);
     }
 
-    void preamble() {
+    /** Prints the program preamble to the output stream. */
+    void printPreamble() {
         println(BANNER);
         println("Hello! I'm Clue.");
         println("What can I do for you?");
@@ -79,7 +80,7 @@ public class Ui extends PrintWriter {
      */
     public void listen() {
         printSeparatorLine();
-        preamble();
+        printPreamble();
         printSeparatorLine();
 
         Scanner scanner = new Scanner(in);
