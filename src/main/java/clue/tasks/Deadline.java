@@ -23,6 +23,7 @@ public class Deadline extends Task {
     }
 
     public static Task construct(String... args) {
+        assert args.length == 3;
         return new Deadline(args[1], tryParseDate(args[2]));
     }
 }
