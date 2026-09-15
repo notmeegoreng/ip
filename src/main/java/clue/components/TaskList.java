@@ -1,8 +1,6 @@
 package clue.components;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.TreeMap;
 
@@ -138,7 +136,7 @@ public class TaskList extends ArrayList<Task> {
      * @param index the index of this task.
      * @param task the task to output.
      */
-    void printTask(Ui ui, int index, Task task) {
+    static void printTask(Ui ui, int index, Task task) {
         ui.printf(" %d. %s\n", index, task);
     }
 }
