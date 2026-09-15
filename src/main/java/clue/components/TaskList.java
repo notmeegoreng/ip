@@ -1,6 +1,10 @@
 package clue.components;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.TreeMap;
 
 import clue.tasks.Task;
 import clue.ui.Ui;
@@ -28,9 +32,8 @@ public class TaskList extends ArrayList<Task> {
             return;
         }
 
-        int i = 1;
-        for (Task task : this) {
-            printTask(ui, i++, task);
+        for (int i = 1; i <= size(); i++) {
+            printTask(ui, i, get(i - 1));
         }
     }
 
@@ -42,25 +45,80 @@ public class TaskList extends ArrayList<Task> {
      */
     public void find(Ui ui, String keyword) {
         String searchTerm = keyword.toLowerCase();
-        int matchNumber = 1;
+        TreeMap<Integer, LinkedList<Task>> found = new TreeMap<>();
 
         for (Task task : this) {
-            if (task.getName().toLowerCase().contains(searchTerm)) {
-                if (matchNumber == 1) {
-                    ui.println("Here are the matching tasks in your list:");
-                }
-                printTask(ui, matchNumber, task);
-                matchNumber++;
+            int similar = fuzzy_contains(task.getName().toLowerCase(), searchTerm);
+            if (similar != -1) {
+                found.putIfAbsent(similar, new LinkedList<>());
+                // in insertion order
+                found.get(similar).add(task);
             }
         }
-        if (matchNumber == 1) {
+
+        if (found.isEmpty()) {
             ui.println("No matching tasks found.");
+            return;
+        }
+
+        int i = 1;
+        ui.println("Here are some tasks found, sorted by relevance:");
+        for (LinkedList<Task> tasks : found.values()) {
+            for (Task t : tasks) {
+                printTask(ui, i++, t);
+            }
         }
     }
 
-    /** Print out a single task as part of a list with the given index. */
-    private static void printTask(Ui ui, int index, Task task) {
-        ui.println(" " + index + "." + task);
+    /**
+     * Fuzzy search the given string for the given term.
+     * @param string - the string to search through
+     * @param term - the term we are looking for
+     * @return - how approximately does the term appear in the string.
+     * larger numbers are worse. -1 is returned if the term does not really appear.
+     */
+    static int fuzzy_contains(String string, String term) {
+        int n = term.length();
+        int skips = Integer.min(n - 2, 2);
+        int[] needed = new int[n];
+
+        // initialise skips needed array
+        for (int i = 0; i < n; i++) {
+            needed[i] = i < skips ? i + 1 : 9999;
+        }
+
+        int lowest = 9999;
+
+        for (int i = 0; i < string.length(); i++) {
+            for (int j = n - 1; j >= 0; j--) {
+                // update skips needed
+                boolean m = string.charAt(i) == term.charAt(j);
+                if (j == 0) {
+                    needed[j] = m ? j : 1;
+                    continue;
+                }
+                int prev = needed[j - 1];
+                if (m) {
+                    // current is match: minimum of prev, current + 1, next + 1
+                    needed[j] = Integer.min(prev, Integer.min(
+                            needed[j],
+                            j + 1 == n ? 99 : needed[j + 1]
+                    ) + 1);
+                } else {
+                    // minimum of prev + 1, current + 1
+                    needed[j] = Integer.min(prev, needed[j]) + 1;
+                }
+            }
+            lowest = Integer.min(lowest, needed[n - 1]);
+        }
+
+        // account for string smaller than term
+        int j = 1;
+        for (int i = string.length(); i < n; i++) {
+            lowest = Integer.min(lowest, needed[n - j - 1] + j);
+        }
+
+        return lowest <= skips ? lowest : -1;
     }
 
     /**
@@ -72,5 +130,15 @@ public class TaskList extends ArrayList<Task> {
                 size() == 1 ? "is" : "are",
                 size(),
                 size() == 1 ? "" : "s");
+    }
+
+    /**
+     * Prints a single task to the UI as part of a list with the given index.
+     * @param ui the {@link Ui} object to output to.
+     * @param index the index of this task.
+     * @param task the task to output.
+     */
+    void printTask(Ui ui, int index, Task task) {
+        ui.printf(" %d. %s\n", index, task);
     }
 }
