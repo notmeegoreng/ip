@@ -1,8 +1,6 @@
 package clue.components;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.TreeMap;
 
@@ -29,6 +27,7 @@ public class TaskList extends ArrayList<Task> {
     public void list(Ui ui) {
         if (isEmpty()) {
             ui.println("nothing here...");
+            return;
         }
 
         for (int i = 1; i <= size(); i++) {
@@ -121,7 +120,7 @@ public class TaskList extends ArrayList<Task> {
     }
 
     /**
-     * Reports the count of items list to the given Ui object.
+     * Reports the count of items in the list.
      */
     public void reportCount(Ui ui) {
         ui.printf(
@@ -137,7 +136,7 @@ public class TaskList extends ArrayList<Task> {
      * @param index the index of this task.
      * @param task the task to output.
      */
-    void printTask(Ui ui, int index, Task task) {
+    static void printTask(Ui ui, int index, Task task) {
         ui.printf(" %d. %s\n", index, task);
     }
 }
