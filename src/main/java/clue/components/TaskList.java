@@ -29,6 +29,7 @@ public class TaskList extends ArrayList<Task> {
     public void list(Ui ui) {
         if (isEmpty()) {
             ui.println("nothing here...");
+            return;
         }
 
         for (int i = 1; i <= size(); i++) {
@@ -121,7 +122,7 @@ public class TaskList extends ArrayList<Task> {
     }
 
     /**
-     * Reports the count of items list to the given Ui object.
+     * Reports the count of items in the list.
      */
     public void reportCount(Ui ui) {
         ui.printf(
@@ -132,7 +133,7 @@ public class TaskList extends ArrayList<Task> {
     }
 
     /**
-     * Prints a single task to the UI.
+     * Prints a single task to the UI as part of a list with the given index.
      * @param ui the {@link Ui} object to output to.
      * @param index the index of this task.
      * @param task the task to output.

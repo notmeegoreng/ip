@@ -2,6 +2,8 @@ package clue;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.function.Consumer;
+import java.util.function.ObjIntConsumer;
 
 import clue.components.Parser;
 import clue.components.Storage;
@@ -44,7 +46,10 @@ public class Clue {
         return parser;
     }
 
+    // ==================== Command Registration ====================
+
     static void register() {
+        // Simple commands (no arguments required)
         parser.register("bye", (ui, _) -> {
             ui.println("Bye. Hope to see you again soon!");
             return false;
@@ -53,59 +58,20 @@ public class Clue {
             tasks.list(ui);
             return true;
         });
-        parser.register("find", (ui, args) -> {
-            if (args.isEmpty()) {
-                ui.println("Please provide a keyword to search for!");
-            } else {
-                tasks.find(ui, args.get(""));
-            }
-            return true;
-        });
-        parser.register("mark", (ui, args) -> {
-            if (args.isEmpty()) {
-                ui.println("Please tell us which task to mark!");
-                return true;
-            }
-            int idx = getIndexFromInput(ui, args.get(""));
-            if (idx != -1) {
-                Task t = tasks.get(idx);
-                t.setDone(true);
-                ui.println("Woohoo! I've marked this task as done:");
-                ui.print("\t");
-                ui.println(t);
-            }
-            return true;
-        });
-        parser.register("unmark", (ui, args) -> {
-            if (args.isEmpty()) {
-                ui.println("Please tell us which task to unmark!");
-                return true;
-            }
-            int idx = getIndexFromInput(ui, args.get(""));
-            if (idx != -1) {
-                Task t = tasks.get(idx);
-                t.setDone(false);
-                ui.println("OK, I've marked this task as unfinished:");
-                ui.print("\t");
-                ui.println(t);
-            }
-            return true;
-        });
-        parser.register("delete", (ui, args) -> {
-            if (args.isEmpty()) {
-                ui.println("Please tell us which task to delete!");
-                return true;
-            }
-            int idx = getIndexFromInput(ui, args.get(""));
-            if (idx == -1) {
-                return true;
-            }
-            Task t = tasks.remove(idx);
-            ui.println("Alright, deleted this task:");
-            ui.println(t);
-            tasks.reportCount(ui);
-            return true;
-        });
+
+        // Single-argument commands with validation
+        parser.register("mark", createTaskActionWithIndex(
+                "which task to mark", (t, _) -> t.setDone(true),
+                "Woohoo! I've marked this task as done:"));
+        parser.register("unmark", createTaskActionWithIndex(
+                "which task to unmark", (t, _) -> t.setDone(false),
+                "OK, I've marked this task as unfinished:"));
+        parser.register("delete", createTaskActionWithIndex(
+                "which task to delete", (_, i) -> tasks.remove(i),
+                "Alright, deleted this task:", tasks::reportCount)
+        );
+
+        // Task creation commands
         parser.register("todo", (ui, args) -> {
             if (args.isEmpty()) {
                 ui.println("Please tell us what this todo is called!");
@@ -138,7 +104,63 @@ public class Clue {
             }
             return true;
         });
+        
+        // Search command
+        parser.register("find", (ui, args) -> {
+            if (args.isEmpty()) {
+                ui.println("Please provide a keyword to search for!");
+            } else {
+                tasks.find(ui, args.get(""));
+            }
+            return true;
+        });
     }
+
+    // ==================== Helper Methods ====================
+
+    /**
+     * Creates a command handler that takes a task by index and does something with it.
+     *
+     * @param promptText the prompt text to show when index is missing
+     * @param action the action to perform on the task
+     * @param successMessage the message to show after successful action
+     */
+    private static Parser.Command createTaskActionWithIndex(
+            String promptText, ObjIntConsumer<Task> action, String successMessage) {
+        return createTaskActionWithIndex(promptText, action, successMessage, null);
+    }
+
+    /**
+     * Creates a command handler that takes a task by index and does something with it.
+     *
+     * @param promptText the prompt text to show when index is missing
+     * @param action the action to perform on the task
+     * @param successMessage the message to show after successful action
+     * @param after what to do after a successful action, or null if nothing
+     */
+    private static Parser.Command createTaskActionWithIndex(
+            String promptText, ObjIntConsumer<Task> action, String successMessage, Consumer<Ui> after) {
+        return (ui, args) -> {
+            if (args.isEmpty()) {
+                ui.println("Please tell us " + promptText + "!");
+                return true;
+            }
+            int idx = getIndexFromInput(ui, args.get(""));
+            if (idx != -1) {
+                Task t = tasks.get(idx);
+                action.accept(t, idx);
+                ui.println(successMessage);
+                ui.print("\t");
+                ui.println(t);
+                if (after != null) {
+                    after.accept(ui);
+                }
+            }
+            return true;
+        };
+    }
+
+    // ==================== Utility Methods ====================
 
     static int getIndexFromInput(Ui ui, String unparsedInt) {
         int idx;
@@ -151,7 +173,7 @@ public class Clue {
         if (idx < 0) {
             ui.println("Invalid task number! Please provide a positive integer!");
         } else if (idx >= tasks.size()) {
-            ui.println("Invalid task number! Not enough recorded clue.tasks!");
+            ui.println("Invalid task number! Not enough recorded tasks!");
         } else {
             return idx;
         }
