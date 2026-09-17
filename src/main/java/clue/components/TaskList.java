@@ -45,6 +45,7 @@ public class TaskList extends ArrayList<Task> {
             return;
         }
 
+        ui.println("Here are your saved tasks:");
         for (int i = 1; i <= size(); i++) {
             printTask(ui, i, get(i - 1));
         }
