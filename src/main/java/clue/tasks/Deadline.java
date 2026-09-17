@@ -9,7 +9,14 @@ public class Deadline extends Task {
     /** Constructs a Deadline with the given name and by time. */
     public Deadline(String name, LocalDateTime by) {
         super(name);
-        this.by = by;
+        this.by = Task.validateDate(by, "Deadline");
+    }
+
+    /**
+     * Returns the deadline time.
+     */
+    public LocalDateTime getBy() {
+        return by;
     }
 
     @Override
@@ -23,7 +30,16 @@ public class Deadline extends Task {
     }
 
     public static Task construct(String... args) {
-        assert args.length == 3;
-        return new Deadline(args[1], tryParseDate(args[2]));
+        if (args.length != 3) {
+            throw new InvalidTaskException("Deadline requires exactly 3 arguments, got " + args.length);
+        }
+        LocalDateTime by = tryParseDate(args[2]);
+        Task.validateDate(by, "Deadline");
+        return new Deadline(args[1], by);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Deadline && ((Deadline) obj).name.equals(this.name) && ((Deadline) obj).by.equals(this.by);
     }
 }

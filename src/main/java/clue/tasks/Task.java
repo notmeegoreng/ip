@@ -31,17 +31,17 @@ public abstract class Task {
 
 
     protected final String name;
-    private boolean done;
+    private boolean isDone;
 
     /** Constructs a task with the given name, and a default completion state of false. */
     public Task(String name) {
-        this.name = name;
-        this.done = false;
+        this.name = validateName(name);
+        this.isDone = false;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", this.done ? "X" : " ", this.name);
+        return String.format("[%s] %s", this.isDone ? "X" : " ", this.name);
     }
 
     /** Serialisation of this task to a string. Used to reconstruct the task using {@link construct}. */
@@ -64,6 +64,9 @@ public abstract class Task {
     }
 
     static LocalDateTime tryParseDate(String date) {
+        if (date == null || date.trim().isEmpty()) {
+            return defaultDate();
+        }
         try {
             return LocalDateTime.parse(date);
         } catch (DateTimeParseException e) {
@@ -75,7 +78,54 @@ public abstract class Task {
         return this.name;
     }
 
-    public void setDone(boolean done) {
-        this.done = done;
+    /**
+     * Update the done status of this task.
+     * @param isDone - what to set the done status of this task to
+     */
+    public void setDone(boolean isDone) {
+        this.isDone = isDone;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Task && this.name.equals(((Task) obj).name);
+    }
+
+    /**
+     * Validates that the given date is not null and is a valid date.
+     *
+     * @param date the date to validate
+     * @param fieldName the name of the field being validated (for error messages)
+     * @return the validated date
+     * @throws InvalidTaskException if the date is null or invalid
+     */
+    static LocalDateTime validateDate(LocalDateTime date, String fieldName) {
+        if (date == null) {
+            throw new InvalidTaskException(fieldName + " cannot be null");
+        }
+        return date;
+    }
+
+    /**
+     * Validates that the task name is not empty or just whitespace.
+     *
+     * @param name the name to validate
+     * @return the validated name
+     * @throws InvalidTaskException if the name is empty or blank
+     */
+    static String validateName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new InvalidTaskException("Task name cannot be empty");
+        }
+        return name.trim();
+    }
+
+    /**
+     * Custom exception for task validation errors.
+     */
+    public static class InvalidTaskException extends RuntimeException {
+        public InvalidTaskException(String message) {
+            super(message);
+        }
     }
 }

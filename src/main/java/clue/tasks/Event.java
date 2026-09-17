@@ -10,8 +10,23 @@ public class Event extends Task {
     /** Constructs an Event with the given name and from and to times. */
     public Event(String name, LocalDateTime from, LocalDateTime to) {
         super(name);
-        this.from = from;
-        this.to = to;
+        this.from = validateDateTime(from, "Event start");
+        this.to = validateDateTime(to, "Event end");
+        validateEventRange(this.from, this.to);
+    }
+
+    /**
+     * Returns the start time of this event.
+     */
+    public LocalDateTime getFrom() {
+        return from;
+    }
+
+    /**
+     * Returns the end time of this event.
+     */
+    public LocalDateTime getTo() {
+        return to;
     }
 
     @Override
@@ -27,7 +42,42 @@ public class Event extends Task {
     }
 
     public static Task construct(String... args) {
-        assert args.length == 4;
-        return new Event(args[1], tryParseDate(args[2]), tryParseDate(args[3]));
+        if (args.length != 4) {
+            throw new InvalidTaskException("Event requires exactly 4 arguments, got " + args.length);
+        }
+        LocalDateTime from = tryParseDate(args[2]);
+        LocalDateTime to = tryParseDate(args[3]);
+        validateEventRange(from, to);
+        return new Event(args[1], from, to);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Event && ((Event) obj).name.equals(this.name)
+                && ((Event) obj).from.equals(this.from) && ((Event) obj).to.equals(this.to);
+    }
+
+    /**
+     * Validates that the datetime is a valid date/time.
+     */
+    private static LocalDateTime validateDateTime(LocalDateTime dt, String fieldName) {
+        return Task.validateDate(dt, fieldName);
+    }
+
+    /**
+     * Validates that the event start time is before the end time.
+     *
+     * @param from start time
+     * @param to end time
+     * @throws InvalidTaskException if from is not before to
+     */
+    private static void validateEventRange(LocalDateTime from, LocalDateTime to) {
+        if (from == null || to == null) {
+            throw new InvalidTaskException("Event dates cannot be null");
+        }
+        if (!from.isBefore(to)) {
+            throw new InvalidTaskException("Event start time must be before end time. Got: " +
+                    "start=" + displayDate(from) + ", end=" + displayDate(to));
+        }
     }
 }

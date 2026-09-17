@@ -13,8 +13,23 @@ import clue.ui.Ui;
 public class TaskList extends ArrayList<Task> {
     /**
      * Add a task to the list, reporting to the given Ui object.
+     * Validates the task before adding it.
      */
     public void addTask(Ui ui, Task task) {
+        if (task == null) {
+            ui.println("Error: Cannot add null task");
+            return;
+        }
+        
+        // Check for duplicate task (same name and details)
+        for (Task existingTask : this) {
+            if (existingTask.equals(task)) {
+                ui.println("Warning: A task with the same name '" + task.getName() + "' and details already exists.");
+                ui.println("Please use a different name or delete the existing task first.");
+                return;
+            }
+        }
+        
         add(task);
         ui.print("Noted. I've added this task:\n\t");
         ui.println(task);
@@ -42,10 +57,18 @@ public class TaskList extends ArrayList<Task> {
      * @param keyword the case-insensitive text to search for
      */
     public void find(Ui ui, String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            ui.println("Please provide a valid keyword to search for!");
+            return;
+        }
+        
         String searchTerm = keyword.toLowerCase();
         TreeMap<Integer, LinkedList<Task>> found = new TreeMap<>();
 
         for (Task task : this) {
+            if (task == null) {
+                continue;
+            }
             int similar = fuzzy_contains(task.getName().toLowerCase(), searchTerm);
             if (similar != -1) {
                 found.putIfAbsent(similar, new LinkedList<>());
@@ -137,6 +160,10 @@ public class TaskList extends ArrayList<Task> {
      * @param task the task to output.
      */
     static void printTask(Ui ui, int index, Task task) {
+        if (task == null) {
+            ui.printf(" %d. [INVALID TASK]\n", index);
+            return;
+        }
         ui.printf(" %d. %s\n", index, task);
     }
 }

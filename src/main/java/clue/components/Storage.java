@@ -2,7 +2,6 @@ package clue.components;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -26,6 +25,7 @@ public class Storage {
             "D", Deadline.class,
             "E", Event.class
     );
+    private static final String CONSTRUCT_METHOD = "construct";
 
     private final File file;
 
@@ -35,7 +35,10 @@ public class Storage {
      * @param filepath - the location where this class persists and loads data
      */
     public Storage(String filepath) {
-        file = new File(filepath);
+        if (filepath == null || filepath.trim().isEmpty()) {
+            throw new IllegalArgumentException("Filepath cannot be null or empty");
+        }
+        this.file = new File(filepath);
     }
 
     /**
@@ -43,23 +46,58 @@ public class Storage {
      * @param lst - List to append the tasks to.
      */
     public <T extends List<Task>> T load(T lst) {
+        if (!file.exists()) {
+            // file does not exist yet, return default empty list
+            return lst;
+        }
+        
+        if (!file.isFile()) {
+            System.err.println("Error: Storage path is not a file: " + file.getAbsolutePath());
+            return lst;
+        }
+        
+        if (!file.canRead()) {
+            System.err.println("Error: Cannot read storage file: " + file.getAbsolutePath());
+            return lst;
+        }
+
         try (Scanner myReader = new Scanner(file)) {
+            int lineNumber = 0;
             while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                String[] parts = data.split(SEPARATOR);
-                Class<? extends Task> cls = CLASSES.get(parts[0]);
-                if (cls == null) {
-                    // corruption or new task version which we cannot handle
-                    // ignore this line
+                lineNumber++;
+                String data = myReader.nextLine().trim();
+                
+                // Skip empty lines
+                if (data.isEmpty()) {
                     continue;
                 }
-                lst.add((Task) cls.getMethod("construct", String[].class).invoke(null, (Object) parts));
+                
+                String[] parts = data.split(SEPARATOR);
+                if (parts.length < 2) {
+                    System.err.println("Warning: Malformed line " + lineNumber + ": " + data);
+                    continue;
+                }
+                
+                Class<? extends Task> cls = CLASSES.get(parts[0]);
+                if (cls == null) {
+                    // Unknown task type - could be new version we cannot handle
+                    System.err.println("Warning: Unknown task type '" + parts[0] + "' at line " + lineNumber);
+                    continue;
+                }
+                
+                try {
+                    Task task = (Task) cls.getMethod(CONSTRUCT_METHOD, String[].class).invoke(null, (Object) parts);
+                    lst.add(task);
+                } catch (InvocationTargetException e) {
+                    // Task construction failed due to validation error
+                    System.err.println("Warning: Failed to load task at line " + lineNumber + ": " + e.getCause().getMessage());
+                } catch (NoSuchMethodException | IllegalAccessException e) {
+                    // We failed to implement the correct methods on classes in our CLASSES mapping
+                    throw new RuntimeException("Unimplemented methods needed for class loading!", e);
+                }
             }
-        } catch (FileNotFoundException e) {
-            // file does not exist yet, return default empty list
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            // we failed to implement the correct methods on classes in our CLASSES mapping
-            throw new RuntimeException("Unimplemented methods needed for class loading!", e);
+        } catch (IOException e) {
+            System.err.println("Error reading storage file: " + e.getMessage());
         }
         return lst;
     }
@@ -71,13 +109,30 @@ public class Storage {
      * @return - Whether this operation is successful.
      */
     public boolean save(List<Task> tasks) {
+        if (tasks == null) {
+            System.err.println("Error: Cannot save null task list");
+            return false;
+        }
+        
+        // Ensure parent directory exists
+        File parentDir = file.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            if (!parentDir.mkdirs()) {
+                System.err.println("Error: Could not create directory: " + parentDir.getAbsolutePath());
+                return false;
+            }
+        }
+        
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Task t : tasks) {
-                writer.write(t.save(SEPARATOR));
-                writer.newLine();
+                if (t != null) {
+                    writer.write(t.save(SEPARATOR));
+                    writer.newLine();
+                }
             }
+            writer.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error writing to storage file: " + e.getMessage());
             return false;
         }
         return true;
