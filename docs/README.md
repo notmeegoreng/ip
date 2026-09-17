@@ -1,9 +1,7 @@
 # Clue User Guide
 
-// Product screenshot goes here
 ![Project Showcase](Ui.png)
 
-// Product intro goes here
 **Clue** is a chatbot with robust task recording features. 
 Your tasks are persisted to disk, and can range from todos, deadlines, to events.
 Saving is automatically done when the application is closed.
@@ -35,17 +33,17 @@ List out all your saved tasks, numbered by creation order.
 
 `mark <index>`
 
-Marks the `<index>`th task as done.
+Marks the `<index>`<sup>th</sup> task as done.
 Indexes are as seen in `list` output.
 
 `unmark <index>`
 
-Unmarks the `<index>`th task as done.
+Unmarks the `<index>`<sup>th</sup> task as done.
 Indexes are as seen in `list` output.
 
 `delete <index>`
 
-Deletes the `<index>`th task from the list.
+Deletes the `<index>`<sup>th</sup> task from the list.
 Indexes are as seen in `list` output.
 
 ## Fuzzy Search
