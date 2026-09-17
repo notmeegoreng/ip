@@ -39,7 +39,7 @@ public class Message extends HBox {
         text.setText(msg);
         setAlignment(isUser ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
         text.setTextAlignment(isUser ? TextAlignment.RIGHT : TextAlignment.LEFT);
-        
+
         // Set different background colors for user vs chatbot messages
         String bgColor = isUser ? USER_BG_COLOR : CHATBOT_BG_COLOR;
         text.setStyle("-fx-background-color: " + bgColor + "; -fx-background-radius: 4;");

@@ -50,12 +50,12 @@ public class Storage {
             // file does not exist yet, return default empty list
             return lst;
         }
-        
+
         if (!file.isFile()) {
             System.err.println("Error: Storage path is not a file: " + file.getAbsolutePath());
             return lst;
         }
-        
+
         if (!file.canRead()) {
             System.err.println("Error: Cannot read storage file: " + file.getAbsolutePath());
             return lst;
@@ -66,31 +66,32 @@ public class Storage {
             while (myReader.hasNextLine()) {
                 lineNumber++;
                 String data = myReader.nextLine().trim();
-                
+
                 // Skip empty lines
                 if (data.isEmpty()) {
                     continue;
                 }
-                
+
                 String[] parts = data.split(SEPARATOR);
                 if (parts.length < 2) {
                     System.err.println("Warning: Malformed line " + lineNumber + ": " + data);
                     continue;
                 }
-                
+
                 Class<? extends Task> cls = CLASSES.get(parts[0]);
                 if (cls == null) {
                     // Unknown task type - could be new version we cannot handle
                     System.err.println("Warning: Unknown task type '" + parts[0] + "' at line " + lineNumber);
                     continue;
                 }
-                
+
                 try {
                     Task task = (Task) cls.getMethod(CONSTRUCT_METHOD, String[].class).invoke(null, (Object) parts);
                     lst.add(task);
                 } catch (InvocationTargetException e) {
                     // Task construction failed due to validation error
-                    System.err.println("Warning: Failed to load task at line " + lineNumber + ": " + e.getCause().getMessage());
+                    System.err.println("Warning: Failed to load task at line "
+                            + lineNumber + ": " + e.getCause().getMessage());
                 } catch (NoSuchMethodException | IllegalAccessException e) {
                     // We failed to implement the correct methods on classes in our CLASSES mapping
                     throw new RuntimeException("Unimplemented methods needed for class loading!", e);
@@ -113,7 +114,7 @@ public class Storage {
             System.err.println("Error: Cannot save null task list");
             return false;
         }
-        
+
         // Ensure parent directory exists
         File parentDir = file.getParentFile();
         if (parentDir != null && !parentDir.exists()) {
@@ -122,7 +123,7 @@ public class Storage {
                 return false;
             }
         }
-        
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Task t : tasks) {
                 if (t != null) {

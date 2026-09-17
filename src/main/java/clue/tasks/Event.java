@@ -41,6 +41,7 @@ public class Event extends Task {
                 this.from.toString(), this.to.toString());
     }
 
+    /** Construct an Event object using an array of string arguments, serialized from {@link save} */
     public static Task construct(String... args) {
         if (args.length != 4) {
             throw new InvalidTaskException("Event requires exactly 4 arguments, got " + args.length);
@@ -76,8 +77,8 @@ public class Event extends Task {
             throw new InvalidTaskException("Event dates cannot be null");
         }
         if (!from.isBefore(to)) {
-            throw new InvalidTaskException("Event start time must be before end time. Got: " +
-                    "start=" + displayDate(from) + ", end=" + displayDate(to));
+            throw new InvalidTaskException("Event start time must be before end time. "
+                    + "Got: start=" + displayDate(from) + ", end=" + displayDate(to));
         }
     }
 }

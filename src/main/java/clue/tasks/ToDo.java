@@ -16,6 +16,7 @@ public class ToDo extends Task {
         return String.join(separator, "T", this.name);
     }
 
+    /** Construct a ToDo object using an array of string arguments, serialized from {@link save} */
     public static Task construct(String... args) {
         if (args.length != 2) {
             throw new InvalidTaskException("ToDo requires exactly 2 arguments, got " + args.length);

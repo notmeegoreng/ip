@@ -2,6 +2,8 @@ package clue;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.function.Consumer;
+import java.util.function.ObjIntConsumer;
 
 import clue.components.Parser;
 import clue.components.Storage;
@@ -76,13 +78,13 @@ public class Clue {
                 ui.println("Please tell us what this todo is called!");
                 return true;
             }
-            
+
             String todoName = args.get("").trim();
             if (todoName.isEmpty()) {
                 ui.println("Please tell us what this todo is called!");
                 return true;
             }
-            
+
             try {
                 tasks.addTask(ui, new ToDo(todoName));
             } catch (InvalidTaskException e) {
@@ -90,25 +92,25 @@ public class Clue {
             }
             return true;
         });
-        
+
         parser.register("deadline", (ui, args) -> {
             if (args.isEmpty()) {
                 ui.println("Please tell us what this deadline is called!");
                 return true;
             }
-            
+
             String deadlineName = args.get("").trim();
             if (deadlineName.isEmpty()) {
                 ui.println("Please tell us what this deadline is called!");
                 return true;
             }
-            
+
             String unparsedBy = args.get("by");
             if (unparsedBy == null || unparsedBy.trim().isEmpty()) {
                 ui.println("Please provide a deadline date using the /by argument!");
                 return true;
             }
-            
+
             LocalDateTime by = parseDate(ui, unparsedBy);
             if (by != null) {
                 try {
@@ -119,32 +121,32 @@ public class Clue {
             }
             return true;
         });
-        
+
         parser.register("event", (ui, args) -> {
             if (args.isEmpty()) {
                 ui.println("Please tell us what this event is called!");
                 return true;
             }
-            
+
             String eventName = args.get("").trim();
             if (eventName.isEmpty()) {
                 ui.println("Please tell us what this event is called!");
                 return true;
             }
-            
+
             String unparsedFrom = args.get("from");
             String unparsedTo = args.get("to");
-            
+
             if (unparsedFrom == null || unparsedFrom.trim().isEmpty()) {
                 ui.println("Please provide a start date using the /from argument!");
                 return true;
             }
-            
+
             if (unparsedTo == null || unparsedTo.trim().isEmpty()) {
                 ui.println("Please provide an end date using the /to argument!");
                 return true;
             }
-            
+
             LocalDateTime from = parseDate(ui, unparsedFrom);
             LocalDateTime to = parseDate(ui, unparsedTo);
 
@@ -157,7 +159,7 @@ public class Clue {
             }
             return true;
         });
-        
+
         // Search command
         parser.register("find", (ui, args) -> {
             if (args.isEmpty()) {
@@ -199,19 +201,20 @@ public class Clue {
      * @param after what to do after a successful action, or null if nothing
      */
     private static Parser.Command createTaskActionWithIndex(
-            String promptText, java.util.function.ObjIntConsumer<Task> action, String successMessage, java.util.function.Consumer<Ui> after) {
+            String promptText, ObjIntConsumer<Task> action,
+            String successMessage, Consumer<Ui> after) {
         return (ui, args) -> {
             if (args.isEmpty()) {
                 ui.println("Please tell us " + promptText + "!");
                 return true;
             }
-            
+
             String indexInput = args.get("");
             if (indexInput == null || indexInput.trim().isEmpty()) {
                 ui.println("Please tell us " + promptText + "!");
                 return true;
             }
-            
+
             int idx = getIndexFromInput(ui, indexInput);
             if (idx != -1) {
                 Task t = tasks.get(idx);
@@ -258,7 +261,7 @@ public class Clue {
             ui.println("Invalid date format! Please provide a valid date. Example: [2026-]12-31[ 12:30]");
             return null;
         }
-        
+
         LocalDateTime out;
         try {
             out = LocalDateTime.parse(unparsed, Task.IN_FORMAT);

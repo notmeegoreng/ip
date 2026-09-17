@@ -20,7 +20,7 @@ public class TaskList extends ArrayList<Task> {
             ui.println("Error: Cannot add null task");
             return;
         }
-        
+
         // Check for duplicate task (same name and details)
         for (Task existingTask : this) {
             if (existingTask.equals(task)) {
@@ -29,7 +29,7 @@ public class TaskList extends ArrayList<Task> {
                 return;
             }
         }
-        
+
         add(task);
         ui.print("Noted. I've added this task:\n\t");
         ui.println(task);
@@ -62,7 +62,7 @@ public class TaskList extends ArrayList<Task> {
             ui.println("Please provide a valid keyword to search for!");
             return;
         }
-        
+
         String searchTerm = keyword.toLowerCase();
         TreeMap<Integer, LinkedList<Task>> found = new TreeMap<>();
 
@@ -97,14 +97,14 @@ public class TaskList extends ArrayList<Task> {
      * @param string - the string to search through
      * @param term - the term we are looking for
      * @return - how approximately does the term appear in the string.
-     * larger numbers are worse. -1 is returned if the term does not really appear.
+     *     larger numbers are worse. -1 is returned if the term does not really appear.
      */
     static int fuzzy_contains(String string, String term) {
         int n = term.length();
         int skips = Integer.min(n - 2, 2);
         int[] needed = new int[n];
 
-        // initialise skips needed array
+        // initialize skips needed array
         for (int i = 0; i < n; i++) {
             needed[i] = i < skips ? i + 1 : 9999;
         }

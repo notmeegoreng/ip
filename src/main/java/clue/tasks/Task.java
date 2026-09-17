@@ -59,6 +59,7 @@ public abstract class Task {
         return date.format(OUT_FORMAT);
     }
 
+    /** The default date used by this class and its subclasses. */
     public static LocalDateTime defaultDate() {
         return LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
     }
@@ -74,6 +75,7 @@ public abstract class Task {
         }
     }
 
+    /** Get this task's name */
     public String getName() {
         return this.name;
     }

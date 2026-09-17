@@ -53,13 +53,12 @@ public class Parser implements Ui.InputHandler {
     @Override
     public boolean handle(Ui ui, String in) {
         in = in.trim();
-        
+
         // Handle empty input
         if (in.isEmpty()) {
             ui.println("Please enter a command.");
             return true;
         }
-
 
         int idx = in.indexOf(' ');
         String command;
@@ -72,11 +71,11 @@ public class Parser implements Ui.InputHandler {
             command = in.substring(0, idx);
             // Validate command doesn't contain invalid characters
             if (!isValidCommandName(command)) {
-                ui.println("Invalid command format. " +
-                        "Commands should only contain letters, numbers, underscores, and hyphens.");
+                ui.println("Invalid command format. "
+                        + "Commands should only contain letters, numbers, underscores, and hyphens.");
                 return true;
             }
-            
+
             Matcher matcher = ARGUMENT_REGEX.matcher(in).region(0, idx);
             String name = "";
             args = new HashMap<>();
@@ -87,14 +86,14 @@ public class Parser implements Ui.InputHandler {
                     ui.println("Warning: Argument '" + name + "' has no value. It will be ignored.");
                 }
                 name = matcher.group(1);
-                
+
                 // Validate argument name
                 if (!isValidArgumentName(name)) {
-                    ui.println("Warning: Invalid argument name '" + name + "'. " +
-                            "Arguments should only contain letters, numbers, underscores, and hyphens.");
+                    ui.println("Warning: Invalid argument name '" + name + "'. "
+                            + "Arguments should only contain letters, numbers, underscores, and hyphens.");
                     continue;
                 }
-                
+
                 idx = matcher.end();
             }
             args.put(name, in.substring(idx).trim());

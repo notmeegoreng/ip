@@ -4,7 +4,6 @@ import java.io.CharArrayWriter;
 import java.io.IOException;
 
 import clue.Clue;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -66,8 +65,7 @@ public class Gui extends Application {
      *
      * @param stage the primary stage for this application.
      *
-     * @throws IOException
-     * May throw IOException if the main window's FXML cannot be found, or other loading error.
+     * @throws IOException May throw IOException if the main window's FXML cannot be found, or other loading error.
      */
     @Override
     public void start(Stage stage) throws IOException {
