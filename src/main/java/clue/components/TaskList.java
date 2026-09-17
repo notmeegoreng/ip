@@ -52,7 +52,7 @@ public class TaskList extends ArrayList<Task> {
     }
 
     /**
-     * Prints tasks whose displayed text contains the supplied keyword.
+     * Prints tasks whose displayed text approximately contains the supplied keyword.
      *
      * @param ui the interface used to display the matching tasks
      * @param keyword the case-insensitive text to search for
@@ -134,10 +134,9 @@ public class TaskList extends ArrayList<Task> {
             lowest = Integer.min(lowest, needed[n - 1]);
         }
 
-        // account for string smaller than term
-        int j = 1;
-        for (int i = string.length(); i < n; i++) {
-            lowest = Integer.min(lowest, needed[n - j - 1] + j);
+        // account for end of string
+        for (int i = 0; i < skips; i++) {
+            lowest = Integer.min(lowest, needed[n - i - 1] + i);
         }
 
         return lowest <= skips ? lowest : -1;
