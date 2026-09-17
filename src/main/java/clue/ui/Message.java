@@ -14,6 +14,8 @@ import javafx.scene.text.TextAlignment;
  */
 public class Message extends HBox {
     private static final FXMLLoader LOADER = new FXMLLoader(Message.class.getResource("/ui/message.fxml"));
+    private static final String USER_BG_COLOR = "#66ff66";
+    private static final String CHATBOT_BG_COLOR = "#b3d9ff";
 
     @FXML
     private Label text;
@@ -37,5 +39,9 @@ public class Message extends HBox {
         text.setText(msg);
         setAlignment(isUser ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
         text.setTextAlignment(isUser ? TextAlignment.RIGHT : TextAlignment.LEFT);
+        
+        // Set different background colors for user vs chatbot messages
+        String bgColor = isUser ? USER_BG_COLOR : CHATBOT_BG_COLOR;
+        text.setStyle("-fx-background-color: " + bgColor + "; -fx-background-radius: 4;");
     }
 }
