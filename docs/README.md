@@ -6,8 +6,16 @@
 Your tasks are persisted to disk, and can range from todos, deadlines, to events.
 Saving is automatically done when the application is closed.
 
+## Simple commands
 
-## Adding todos, deadlines, and events
+`list`
+
+List out all your saved tasks, numbered by creation order.
+
+`bye`
+Exits the program.
+
+## Adding tasks
 
 `todo <name>`
 
@@ -16,18 +24,12 @@ Creates a ToDo with the given name
 `deadline <name> /by <datetime>`
 
 Creates a Deadline with the given name, to be done by the given time.
-Datetimes are in  \[YY-]MM-DD\[ HH:mm] format, where square brackets denote optional parts.
+Datetimes are in  \[YYYY-]MM-DD\[ HH:mm] format, where square brackets denote optional parts.
 
 `event <name> /from <datetime> /to <datetime>`
 
 Creates an Event with the given name that lasts in a range.
-Datetimes are in \[YY-]MM-DD\[ HH:mm] format, where square brackets denote optional parts.
-
-## List
-
-`list`
-
-List out all your saved tasks, numbered by creation order.
+Datetimes are in \[YYYY-]MM-DD\[ HH:mm] format, where square brackets denote optional parts.
 
 ## Index based commands
 
