@@ -31,7 +31,8 @@ public class TaskList extends ArrayList<Task> {
         }
 
         add(task);
-        ui.print("Noted. I've added this task:\n\t");
+        ui.println("Noted. I've added this task:");
+        ui.print("\t");
         ui.println(task);
         reportCount(ui);
     }
