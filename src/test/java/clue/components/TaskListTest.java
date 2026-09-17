@@ -19,16 +19,17 @@ class TaskListTest {
         TaskList tasks = new TaskList();
         tasks.add(new ToDo("read book"));
         tasks.add(new ToDo("buy milk"));
-        tasks.add(new ToDo("return BOOK"));
+        tasks.add(new ToDo("return BOOKS"));
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        Ui ui = new Ui(System.in, output);
+        Ui ui = new Ui(null, System.in, output);
 
-        tasks.find(ui, "book");
+        tasks.find(ui, "books");
 
         String result = output.toString(StandardCharsets.UTF_8);
-        assertTrue(result.contains("Here are the matching tasks in your list:"));
-        assertTrue(result.contains("1.[T][ ] read book"));
-        assertTrue(result.contains("2.[T][ ] return BOOK"));
+        System.out.println(result);
+        assertTrue(result.contains("Here are some tasks found, sorted by relevance:"));
+        assertTrue(result.contains("1. [T][ ] return BOOKS"));
+        assertTrue(result.contains("2. [T][ ] read book"));
         assertFalse(result.contains("buy milk"));
     }
 
@@ -37,7 +38,7 @@ class TaskListTest {
         TaskList tasks = new TaskList();
         tasks.add(new ToDo("read book"));
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        Ui ui = new Ui(System.in, output);
+        Ui ui = new Ui(null, System.in, output);
 
         tasks.find(ui, "movie");
 
