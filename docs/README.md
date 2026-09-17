@@ -6,6 +6,7 @@
 // Product intro goes here
 **Clue** is a chatbot with robust task recording features. 
 Your tasks are persisted to disk, and can range from todos, deadlines, to events.
+Saving is automatically done when the application is closed.
 
 
 ## Adding todos, deadlines, and events
@@ -23,6 +24,29 @@ Datetimes are in  \[YY-]MM-DD\[ HH:mm] format, where square brackets denote opti
 
 Creates an Event with the given name that lasts in a range.
 Datetimes are in \[YY-]MM-DD\[ HH:mm] format, where square brackets denote optional parts.
+
+## List
+
+`list`
+
+List out all your saved tasks, numbered by creation order.
+
+## Index based commands
+
+`mark <index>`
+
+Marks the `<index>`th task as done.
+Indexes are as seen in `list` output.
+
+`unmark <index>`
+
+Unmarks the `<index>`th task as done.
+Indexes are as seen in `list` output.
+
+`delete <index>`
+
+Deletes the `<index>`th task from the list.
+Indexes are as seen in `list` output.
 
 ## Fuzzy Search
 `find <term>`
