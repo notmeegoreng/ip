@@ -1,7 +1,7 @@
 # Clue User Guide
 
 // Product screenshot goes here
-![Project Showcase](/Ui.png)
+![Project Showcase](Ui.png)
 
 // Product intro goes here
 **Clue** is a chatbot with robust task recording features. 
