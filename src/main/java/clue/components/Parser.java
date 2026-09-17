@@ -32,7 +32,7 @@ public class Parser implements Ui.InputHandler {
     };
 
     /** Regex to match for named arguments. */
-    public static final Pattern ARGUMENT_REGEX = Pattern.compile("/(.+?)");
+    public static final Pattern ARGUMENT_REGEX = Pattern.compile("/(.+?) ");
 
     private final HashMap<String, Command> commands;
 
@@ -76,15 +76,19 @@ public class Parser implements Ui.InputHandler {
                 return true;
             }
 
-            Matcher matcher = ARGUMENT_REGEX.matcher(in).region(0, idx);
+            Matcher matcher = ARGUMENT_REGEX.matcher(in).region(idx, in.length());
             String name = "";
             args = new HashMap<>();
             while (matcher.find()) {
+
                 String argValue = in.substring(idx, matcher.start()).trim();
                 // Check for empty argument value (e.g., "/key /next")
+                // ignore if the first arg i.e. the default one is empty
                 if (argValue.isEmpty() && !name.isEmpty()) {
                     ui.println("Warning: Argument '" + name + "' has no value. It will be ignored.");
                 }
+                args.put(name, argValue);
+
                 name = matcher.group(1);
 
                 // Validate argument name
