@@ -2,8 +2,6 @@ package clue;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.function.Consumer;
-import java.util.function.ObjIntConsumer;
 
 import clue.commands.ByeCommand;
 import clue.commands.CreateDeadlineCommand;
@@ -17,11 +15,7 @@ import clue.commands.UnmarkCommand;
 import clue.components.Parser;
 import clue.components.Storage;
 import clue.components.TaskList;
-import clue.tasks.Deadline;
-import clue.tasks.Event;
 import clue.tasks.Task;
-import clue.tasks.Task.InvalidTaskException;
-import clue.tasks.ToDo;
 import clue.ui.Gui;
 import clue.ui.Ui;
 import javafx.application.Application;

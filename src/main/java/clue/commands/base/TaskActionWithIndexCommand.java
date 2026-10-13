@@ -56,7 +56,7 @@ public abstract class TaskActionWithIndexCommand implements Parser.Command {
             this.after(ui);
         }
         return true;
-    };
+    }
 
     private int getIndexFromInput(Ui ui, String unparsedInt) {
         String trimmed = unparsedInt.trim();
