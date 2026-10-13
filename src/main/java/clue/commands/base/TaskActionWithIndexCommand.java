@@ -1,4 +1,4 @@
-package clue.commands;
+package clue.commands.base;
 
 import java.util.Map;
 

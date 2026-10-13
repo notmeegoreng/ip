@@ -1,5 +1,6 @@
 package clue.commands;
 
+import clue.commands.base.TaskActionWithIndexCommand;
 import clue.components.TaskList;
 import clue.tasks.Task;
 import clue.ui.Ui;
