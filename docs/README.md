@@ -6,6 +6,9 @@
 Your tasks are persisted to disk, and can range from todos, deadlines, to events.
 Saving is automatically done when the application is closed.
 
+Type commands into the textbox, then simply press Enter or the Enter button to the left
+to input the command.
+
 ## Simple commands
 
 `list`
