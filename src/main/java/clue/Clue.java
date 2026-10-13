@@ -248,7 +248,7 @@ public class Clue {
         }
         if (idx < 0) {
             ui.println("Invalid task number! Please provide a positive integer!");
-        } else if (idx > tasks.size()) {
+        } else if (idx >= tasks.size()) {
             ui.println("Invalid task number! Not enough recorded tasks!");
         } else {
             return idx;
