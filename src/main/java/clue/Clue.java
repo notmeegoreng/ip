@@ -30,13 +30,8 @@ public class Clue {
     static void main(String[] args) {
         register();
 
-        // Command line based system
-        // Ui ui = new Ui(parser, System.in, System.out);
-
         // GUI system
-
         try {
-            // ui.listen();
             Application.launch(Gui.class, args);
         } finally {
             if (!storage.save(tasks)) {
