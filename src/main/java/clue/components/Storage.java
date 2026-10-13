@@ -15,8 +15,7 @@ import clue.tasks.Task;
 import clue.tasks.ToDo;
 
 /**
- * Handle persisting and loading from the filesystem.
- *
+ * Handles persisting and loading data from the filesystem
  */
 public class Storage {
     public static final String SEPARATOR = "!%#";
