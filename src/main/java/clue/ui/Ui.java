@@ -84,10 +84,10 @@ public class Ui extends PrintWriter {
         printSeparatorLine();
 
         Scanner scanner = new Scanner(in);
-        boolean running = true;
-        while (running && scanner.hasNextLine()) {
+        boolean isRunning = true;
+        while (isRunning && scanner.hasNextLine()) {
             printSeparatorLine();
-            running = receive(scanner.nextLine());
+            isRunning = receive(scanner.nextLine());
             printSeparatorLine();
         }
     }
