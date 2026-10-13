@@ -41,6 +41,20 @@ public class Storage {
         this.file = new File(filepath);
     }
 
+    private Task createTask(String line) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException {
+        String[] parts = line.split(SEPARATOR);
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("Malformed line");
+        }
+
+        Class<? extends Task> cls = CLASSES.get(parts[0]);
+        if (cls == null) {
+            // Unknown task type - could be new version we cannot handle
+            throw new IllegalArgumentException("Unknown task type " + parts[0]);
+        }
+        return (Task) cls.getMethod(CONSTRUCT_METHOD, String[].class).invoke(null, (Object) parts);
+    }
+
     /**
      *  Loads tasks from the filepath into the given list.
      * @param lst - List to append the tasks to.
@@ -72,22 +86,8 @@ public class Storage {
                     continue;
                 }
 
-                String[] parts = data.split(SEPARATOR);
-                if (parts.length < 2) {
-                    System.err.println("Warning: Malformed line " + lineNumber + ": " + data);
-                    continue;
-                }
-
-                Class<? extends Task> cls = CLASSES.get(parts[0]);
-                if (cls == null) {
-                    // Unknown task type - could be new version we cannot handle
-                    System.err.println("Warning: Unknown task type '" + parts[0] + "' at line " + lineNumber);
-                    continue;
-                }
-
                 try {
-                    Task task = (Task) cls.getMethod(CONSTRUCT_METHOD, String[].class).invoke(null, (Object) parts);
-                    lst.add(task);
+                    lst.add(createTask(data));
                 } catch (InvocationTargetException e) {
                     // Task construction failed due to validation error
                     System.err.println("Warning: Failed to load task at line "
@@ -95,10 +95,15 @@ public class Storage {
                 } catch (NoSuchMethodException | IllegalAccessException e) {
                     // We failed to implement the correct methods on classes in our CLASSES mapping
                     throw new RuntimeException("Unimplemented methods needed for class loading!", e);
+                } catch (IllegalArgumentException e) {
+                    // Malformed line or unknown task type, warn and skip
+                    System.err.println("Warning: " + e.getMessage() + " at line " + lineNumber);
+                    System.err.println("Line: " + data);
                 }
             }
         } catch (IOException e) {
             System.err.println("Error reading storage file: " + e.getMessage());
+
         }
         return lst;
     }
