@@ -7,6 +7,7 @@ import clue.components.TaskList;
 import clue.tasks.Task;
 import clue.ui.Ui;
 
+/** A command which asks the user to select a task by index and do something with that task */
 public abstract class TaskActionWithIndexCommand implements Parser.Command {
     protected final TaskList tasks;
     private final String promptText;
@@ -15,6 +16,7 @@ public abstract class TaskActionWithIndexCommand implements Parser.Command {
     /**
      * Creates a command handler that takes a task by index and does something with it.
      *
+     * @param tasks the TaskList that this command operates on
      * @param promptText the prompt text to show when index is missing
      * @param successMessage the message to show after successful action
      */

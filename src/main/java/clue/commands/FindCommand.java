@@ -11,8 +11,9 @@ import clue.ui.Ui;
  */
 public class FindCommand implements Parser.Command {
     public static String name = "find";
-    private TaskList tasks;
+    private final TaskList tasks;
 
+    /** Create a FindCommand operating on the given TaskList */
     public FindCommand(TaskList tasks) {
         this.tasks = tasks;
     }
