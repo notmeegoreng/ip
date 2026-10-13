@@ -5,8 +5,10 @@ import java.time.format.DateTimeParseException;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
 
+import clue.commands.ByeCommand;
 import clue.commands.DeleteCommand;
 import clue.commands.FindCommand;
+import clue.commands.ListCommand;
 import clue.commands.MarkCommand;
 import clue.commands.UnmarkCommand;
 import clue.components.Parser;
@@ -55,14 +57,8 @@ public class Clue {
 
     static void register() {
         // Simple commands (no arguments required)
-        parser.register("bye", (ui, _) -> {
-            ui.println("Bye. Hope to see you again soon!");
-            return false;
-        });
-        parser.register("list", (ui, _) -> {
-            tasks.list(ui);
-            return true;
-        });
+        parser.register(ByeCommand.name, new ByeCommand());
+        parser.register(ListCommand.name, new ListCommand(tasks));
 
         // Single-argument commands with validation
         parser.register(MarkCommand.name, new MarkCommand(tasks));
