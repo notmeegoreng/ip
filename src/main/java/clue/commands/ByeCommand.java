@@ -7,7 +7,7 @@ import clue.ui.Ui;
 
 /** A command to exit the application */
 public class ByeCommand implements Parser.Command {
-    public static final String name = "bye";
+    public static final String NAME = "bye";
 
     @Override
     public boolean run(Ui ui, Map<String, String> args) {

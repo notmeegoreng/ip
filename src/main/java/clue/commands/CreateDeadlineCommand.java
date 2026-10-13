@@ -12,14 +12,14 @@ import clue.ui.Ui;
 
 /** A command to create new Deadlines */
 public class CreateDeadlineCommand extends CreateTaskCommand<Deadline> {
-    public final static String name = "deadline";
+    public static final String NAME = "deadline";
     /**
      * Construct a CreateTodoCommand that adds the created ToDos to the given TaskList
      *
      * @param tasks the TaskList to operate on
      */
     public CreateDeadlineCommand(TaskList tasks) {
-        super(tasks, name);
+        super(tasks, NAME);
     }
 
     @Override

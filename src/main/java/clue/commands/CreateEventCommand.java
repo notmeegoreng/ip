@@ -12,14 +12,14 @@ import clue.ui.Ui;
 
 /** A command to create new Events */
 public class CreateEventCommand extends CreateTaskCommand<Event> {
-    public final static String name = "event";
+    public static final String NAME = "event";
     /**
      * Construct a CreateEventCommand that adds the created Events to the given TaskList
      *
      * @param tasks the TaskList to operate on
      */
     public CreateEventCommand(TaskList tasks) {
-        super(tasks, name);
+        super(tasks, NAME);
     }
 
     @Override

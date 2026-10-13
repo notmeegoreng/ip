@@ -54,21 +54,21 @@ public class Clue {
 
     static void register() {
         // Simple commands (no arguments required)
-        parser.register(ByeCommand.name, new ByeCommand());
-        parser.register(ListCommand.name, new ListCommand(tasks));
+        parser.register(ByeCommand.NAME, new ByeCommand());
+        parser.register(ListCommand.NAME, new ListCommand(tasks));
 
         // Single-argument commands with validation
-        parser.register(MarkCommand.name, new MarkCommand(tasks));
-        parser.register(UnmarkCommand.name, new UnmarkCommand(tasks));
-        parser.register(DeleteCommand.name, new DeleteCommand(tasks));
+        parser.register(MarkCommand.NAME, new MarkCommand(tasks));
+        parser.register(UnmarkCommand.NAME, new UnmarkCommand(tasks));
+        parser.register(DeleteCommand.NAME, new DeleteCommand(tasks));
 
         // Task creation commands
-        parser.register(CreateTodoCommand.name, new CreateTodoCommand(tasks));
-        parser.register(CreateDeadlineCommand.name, new CreateDeadlineCommand(tasks));
-        parser.register(CreateEventCommand.name, new CreateEventCommand(tasks));
+        parser.register(CreateTodoCommand.NAME, new CreateTodoCommand(tasks));
+        parser.register(CreateDeadlineCommand.NAME, new CreateDeadlineCommand(tasks));
+        parser.register(CreateEventCommand.NAME, new CreateEventCommand(tasks));
 
         // Find command
-        parser.register(FindCommand.name, new FindCommand(tasks));
+        parser.register(FindCommand.NAME, new FindCommand(tasks));
     }
 
     // ==================== Utility Methods ====================

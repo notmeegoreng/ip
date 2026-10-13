@@ -2,15 +2,15 @@ package clue.commands;
 
 import java.util.Map;
 
-import clue.components.TaskList;
 import clue.components.Parser;
+import clue.components.TaskList;
 import clue.ui.Ui;
 
 /**
  * Command to search tasks fuzzily for keywords.
  */
 public class FindCommand implements Parser.Command {
-    public static String name = "find";
+    public static final String NAME = "find";
     private final TaskList tasks;
 
     /** Create a FindCommand operating on the given TaskList */
@@ -18,6 +18,7 @@ public class FindCommand implements Parser.Command {
         this.tasks = tasks;
     }
 
+    @Override
     public boolean run(Ui ui, Map<String, String> args) {
         if (args.isEmpty()) {
             ui.println("Please provide a keyword to search for!");

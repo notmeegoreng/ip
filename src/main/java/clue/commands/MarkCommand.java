@@ -6,7 +6,7 @@ import clue.tasks.Task;
 
 /** A command that marks a selected task as done. */
 public class MarkCommand extends TaskActionWithIndexCommand {
-    public static final String name = "mark";
+    public static final String NAME = "mark";
 
     /** Create a MarkCommand that operates on the given TaskList */
     public MarkCommand(TaskList tasks) {
