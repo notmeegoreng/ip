@@ -102,6 +102,10 @@ public class TaskList extends ArrayList<Task> {
      */
     static int fuzzy_contains(String string, String term) {
         int n = term.length();
+        if (n <= 2) {
+            // Plain contains for short terms
+            return string.contains(term) ? 0 : -1;
+        }
         int skips = Integer.min(n - 2, 2);
         int[] needed = new int[n];
 
