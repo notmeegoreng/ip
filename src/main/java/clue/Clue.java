@@ -5,7 +5,10 @@ import java.time.format.DateTimeParseException;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
 
+import clue.commands.DeleteCommand;
 import clue.commands.FindCommand;
+import clue.commands.MarkCommand;
+import clue.commands.UnmarkCommand;
 import clue.components.Parser;
 import clue.components.Storage;
 import clue.components.TaskList;
@@ -62,16 +65,9 @@ public class Clue {
         });
 
         // Single-argument commands with validation
-        parser.register("mark", createTaskActionWithIndex(
-                "which task to mark", (t, _) -> t.setDone(true),
-                "Woohoo! I've marked this task as done:"));
-        parser.register("unmark", createTaskActionWithIndex(
-                "which task to unmark", (t, _) -> t.setDone(false),
-                "OK, I've marked this task as unfinished:"));
-        parser.register("delete", createTaskActionWithIndex(
-                "which task to delete", (_, i) -> tasks.remove(i),
-                "Alright, deleted this task:", tasks::reportCount)
-        );
+        parser.register(MarkCommand.name, new MarkCommand(tasks));
+        parser.register(UnmarkCommand.name, new UnmarkCommand(tasks));
+        parser.register(DeleteCommand.name, new DeleteCommand(tasks));
 
         // Task creation commands
         parser.register("todo", (ui, args) -> {
@@ -165,83 +161,7 @@ public class Clue {
         parser.register(FindCommand.name, new FindCommand(tasks));
     }
 
-    // ==================== Helper Methods ====================
-
-    /**
-     * Creates a command handler that takes a task by index and does something with it.
-     *
-     * @param promptText the prompt text to show when index is missing
-     * @param action the action to perform on the task
-     * @param successMessage the message to show after successful action
-     */
-    private static Parser.Command createTaskActionWithIndex(
-            String promptText, java.util.function.ObjIntConsumer<Task> action, String successMessage) {
-        return createTaskActionWithIndex(promptText, action, successMessage, null);
-    }
-
-    /**
-     * Creates a command handler that takes a task by index and does something with it.
-     *
-     * @param promptText the prompt text to show when index is missing
-     * @param action the action to perform on the task
-     * @param successMessage the message to show after successful action
-     * @param after what to do after a successful action, or null if nothing
-     */
-    private static Parser.Command createTaskActionWithIndex(
-            String promptText, ObjIntConsumer<Task> action,
-            String successMessage, Consumer<Ui> after) {
-        return (ui, args) -> {
-            if (args.isEmpty()) {
-                ui.println("Please tell us " + promptText + "!");
-                return true;
-            }
-
-            String indexInput = args.get("");
-            if (indexInput == null || indexInput.trim().isEmpty()) {
-                ui.println("Please tell us " + promptText + "!");
-                return true;
-            }
-
-            int idx = getIndexFromInput(ui, indexInput);
-            if (idx != -1) {
-                Task t = tasks.get(idx);
-                action.accept(t, idx);
-                ui.println(successMessage);
-                ui.print("\t");
-                ui.println(t);
-                if (after != null) {
-                    after.accept(ui);
-                }
-            }
-            return true;
-        };
-    }
-
     // ==================== Utility Methods ====================
-
-    static int getIndexFromInput(Ui ui, String unparsedInt) {
-        String trimmed = unparsedInt.trim();
-        if (trimmed.isEmpty()) {
-            ui.println("Invalid task number! Please provide a positive integer!");
-            return -1;
-        }
-
-        int idx;
-        try {
-            idx = Integer.parseInt(trimmed) - 1;
-        } catch (NumberFormatException e) {
-            ui.println("Invalid task number! Please provide a positive integer!");
-            return -1;
-        }
-        if (idx < 0) {
-            ui.println("Invalid task number! Please provide a positive integer!");
-        } else if (idx >= tasks.size()) {
-            ui.println("Invalid task number! Not enough recorded tasks!");
-        } else {
-            return idx;
-        }
-        return -1;
-    }
 
     static LocalDateTime parseDate(Ui ui, String unparsed) {
         if (unparsed == null || unparsed.trim().isEmpty()) {
