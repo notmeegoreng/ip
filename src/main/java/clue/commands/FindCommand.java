@@ -25,7 +25,7 @@ public class FindCommand implements Parser.Command {
             return true;
         }
 
-        String keyword = args.get("").trim();
+        String keyword = args.get(Parser.DEFAULT_ARGUMENT).trim();
         if (keyword.isEmpty()) {
             ui.println("Please provide a valid keyword to search for!");
             return true;

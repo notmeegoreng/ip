@@ -40,7 +40,7 @@ public abstract class TaskActionWithIndexCommand implements Parser.Command {
             return true;
         }
 
-        String indexInput = args.get("");
+        String indexInput = args.get(Parser.DEFAULT_ARGUMENT);
         if (indexInput == null || indexInput.trim().isEmpty()) {
             ui.println("Please tell us " + promptText + "!");
             return true;

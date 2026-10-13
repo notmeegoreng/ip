@@ -19,11 +19,15 @@ public class Parser implements Ui.InputHandler {
          *
          * @param ui - Ui object for writing back to the user.
          * @param args - A mapping of /key value arguments.
-         *               If nonempty, always contains a "" key for the argument without any name.
+         *               If nonempty, always contains a {@link DEFAULT_ARGUMENT} key for the argument without any name.
          * @return boolean for whether to continue running. If false, initiates shutdown of the program.
          */
         boolean run(Ui ui, Map<String, String> args);
     }
+    /** The key that refers to the default argument in argument mapping
+     *  The default argument is the argument that does not have a '/' specifier
+     */
+    public static final String DEFAULT_ARGUMENT = "";
 
     /** Handler that is run when the user's command is unrecognized. */
     public static final Command DEFAULT_COMMAND = (ui, _) -> {
@@ -77,7 +81,7 @@ public class Parser implements Ui.InputHandler {
             }
 
             Matcher matcher = ARGUMENT_REGEX.matcher(in).region(idx, in.length());
-            String name = "";
+            String name = DEFAULT_ARGUMENT;
             args = new HashMap<>();
             while (matcher.find()) {
                 String argValue = in.substring(idx, matcher.start()).trim();

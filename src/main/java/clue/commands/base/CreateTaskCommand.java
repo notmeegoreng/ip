@@ -22,7 +22,7 @@ public abstract class CreateTaskCommand<T extends Task> implements Parser.Comman
 
     @Override
     public boolean run(Ui ui, Map<String, String> args) {
-        String name = args.get("");
+        String name = args.get(Parser.DEFAULT_ARGUMENT);
         if (name != null) {
             name = name.trim();
         }
