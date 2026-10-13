@@ -5,6 +5,7 @@ import java.time.format.DateTimeParseException;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
 
+import clue.commands.FindCommand;
 import clue.components.Parser;
 import clue.components.Storage;
 import clue.components.TaskList;
@@ -160,22 +161,8 @@ public class Clue {
             return true;
         });
 
-        // Search command
-        parser.register("find", (ui, args) -> {
-            if (args.isEmpty()) {
-                ui.println("Please provide a keyword to search for!");
-                return true;
-            }
-
-            String keyword = args.get("").trim();
-            if (keyword.isEmpty()) {
-                ui.println("Please provide a valid keyword to search for!");
-                return true;
-            }
-
-            tasks.find(ui, keyword);
-            return true;
-        });
+        // Find command
+        parser.register(FindCommand.name, new FindCommand(tasks));
     }
 
     // ==================== Helper Methods ====================
