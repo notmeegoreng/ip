@@ -5,11 +5,11 @@ import clue.components.TaskList;
 import clue.tasks.Task;
 import clue.ui.Ui;
 
-/** A command to delete a task from the TaskList */
+/** Command that deletes a task from the TaskList */
 public class DeleteCommand extends TaskActionWithIndexCommand {
     public static final String NAME = "delete";
 
-    /** Create a DeleteCommand operating on the given TaskList */
+    /** Creates a DeleteCommand operating on the given TaskList */
     public DeleteCommand(TaskList tasks) {
         super(tasks,
                 "which task to delete",

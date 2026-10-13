@@ -4,11 +4,11 @@ import clue.commands.base.TaskActionWithIndexCommand;
 import clue.components.TaskList;
 import clue.tasks.Task;
 
-/** A command that unmarks a selected task, recording it as undone. */
+/** Command that unmarks a selected task, recording it as undone. */
 public class UnmarkCommand extends TaskActionWithIndexCommand {
     public static final String NAME = "unmark";
 
-    /** Create an UnmarkCommand that operates on the given TaskList */
+    /** Creates an UnmarkCommand that operates on the given TaskList */
     public UnmarkCommand(TaskList tasks) {
         super(tasks,
                 "which task to unmark",

@@ -44,7 +44,7 @@ public abstract class Task {
         return String.format("[%s] %s", this.isDone ? "X" : " ", this.name);
     }
 
-    /** Serialisation of this task to a string. Used to reconstruct the task using {@link construct}. */
+    /** Serializes of this task to a string. Used to reconstruct the task using {@link construct}. */
     public abstract String save(String separator);
 
     /** Recreates the task using parts returned by {@link save}. */
@@ -75,13 +75,13 @@ public abstract class Task {
         }
     }
 
-    /** Get this task's name */
+    /** Gets this task's name */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Update the done status of this task.
+     * Updates the done status of this task.
      * @param isDone - what to set the done status of this task to
      */
     public void setDone(boolean isDone) {

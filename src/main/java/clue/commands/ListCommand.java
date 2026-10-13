@@ -6,12 +6,12 @@ import clue.components.Parser;
 import clue.components.TaskList;
 import clue.ui.Ui;
 
-/** A command to list out all tasks within a TaskList */
+/** Command that lists out all tasks within a TaskList */
 public class ListCommand implements Parser.Command {
     public static final String NAME = "list";
     private final TaskList tasks;
 
-    /** Create a ListCommand which lists the given TaskList */
+    /** Creates a ListCommand which lists the given TaskList */
     public ListCommand(TaskList tasks) {
         this.tasks = tasks;
     }

@@ -7,13 +7,13 @@ import clue.components.TaskList;
 import clue.ui.Ui;
 
 /**
- * Command to search tasks fuzzily for keywords.
+ * Command that searches tasks fuzzily for keywords.
  */
 public class FindCommand implements Parser.Command {
     public static final String NAME = "find";
     private final TaskList tasks;
 
-    /** Create a FindCommand operating on the given TaskList */
+    /** Creates a FindCommand operating on the given TaskList */
     public FindCommand(TaskList tasks) {
         this.tasks = tasks;
     }

@@ -7,11 +7,11 @@ import clue.components.TaskList;
 import clue.tasks.ToDo;
 import clue.ui.Ui;
 
-/** A command to create new ToDos */
+/** Command that creates new ToDos */
 public class CreateTodoCommand extends CreateTaskCommand<ToDo> {
     public static final String NAME = "todo";
     /**
-     * Construct a CreateTodoCommand that adds the created ToDos to the given TaskList
+     * Constructs a CreateTodoCommand that adds the created ToDos to the given TaskList
      *
      * @param tasks the TaskList to operate on
      */

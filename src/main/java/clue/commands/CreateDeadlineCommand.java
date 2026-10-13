@@ -10,11 +10,11 @@ import clue.components.TaskList;
 import clue.tasks.Deadline;
 import clue.ui.Ui;
 
-/** A command to create new Deadlines */
+/** Command that creates new Deadlines */
 public class CreateDeadlineCommand extends CreateTaskCommand<Deadline> {
     public static final String NAME = "deadline";
     /**
-     * Construct a CreateTodoCommand that adds the created ToDos to the given TaskList
+     * Constructs a CreateTodoCommand that adds the created ToDos to the given TaskList
      *
      * @param tasks the TaskList to operate on
      */

@@ -80,7 +80,6 @@ public class Parser implements Ui.InputHandler {
             String name = "";
             args = new HashMap<>();
             while (matcher.find()) {
-
                 String argValue = in.substring(idx, matcher.start()).trim();
                 // Check for empty argument value (e.g., "/key /next")
                 // ignore if the first arg i.e. the default one is empty

@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 public class Gui extends Application {
     private class Output extends CharArrayWriter {
         /**
-         * Flush the output buffer, outputting the entire buffer as a single message in the GUI.
+         * Flushes the output buffer, outputting the entire buffer as a single message in the GUI.
          */
         @Override
         public void flush() {
@@ -52,7 +52,7 @@ public class Gui extends Application {
     }
 
     /**
-     * Initialize JavaFX components, then show our preamble.
+     * Initializes JavaFX components, then shows our preamble.
      */
     @FXML
     public void initialize() {

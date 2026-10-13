@@ -21,7 +21,7 @@ public class Message extends HBox {
     private Label text;
 
     /**
-     * Construct a new Message block for display in the GUI.
+     * Constructs a new Message block for display in the GUI.
      *
      * @param msg the text this message block should contain.
      * @param isUser whether to display this box as from the user or from the program.

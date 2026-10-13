@@ -10,11 +10,11 @@ import clue.components.TaskList;
 import clue.tasks.Event;
 import clue.ui.Ui;
 
-/** A command to create new Events */
+/** Command that creates new Events */
 public class CreateEventCommand extends CreateTaskCommand<Event> {
     public static final String NAME = "event";
     /**
-     * Construct a CreateEventCommand that adds the created Events to the given TaskList
+     * Constructs a CreateEventCommand that adds the created Events to the given TaskList
      *
      * @param tasks the TaskList to operate on
      */

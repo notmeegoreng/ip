@@ -29,7 +29,7 @@ public class Deadline extends Task {
         return String.join(separator, "D", this.name, this.by.toString());
     }
 
-    /** Construct a Deadline object using an array of string arguments, serialized from {@link save} */
+    /** Constructs a Deadline object using an array of string arguments, serialized from {@link save} */
     public static Task construct(String... args) {
         if (args.length != 3) {
             throw new InvalidTaskException("Deadline requires exactly 3 arguments, got " + args.length);

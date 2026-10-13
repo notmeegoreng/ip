@@ -37,7 +37,7 @@ public class Ui extends PrintWriter {
     private final InputStream in;
 
     /**
-     * Create a {@link Ui} object with the given handler and streams.
+     * Creates a {@link Ui} object with the given handler and streams.
      *
      * @param handler - The callback to respond to user input.
      * @param in - The stream to listen to for user input.
@@ -50,7 +50,7 @@ public class Ui extends PrintWriter {
     }
 
     /**
-     * Create a {@link Ui} object with the given handler stream and writer.
+     * Creates a {@link Ui} object with the given handler stream and writer.
      *
      * @param handler - The callback to respond to user input.
      * @param in - The stream to listen to for user input.

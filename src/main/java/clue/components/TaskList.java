@@ -12,7 +12,7 @@ import clue.ui.Ui;
  */
 public class TaskList extends ArrayList<Task> {
     /**
-     * Add a task to the list, reporting to the given Ui object.
+     * Adds a task to the list, reporting to the given Ui object.
      * Validates the task before adding it.
      */
     public void addTask(Ui ui, Task task) {
@@ -94,7 +94,7 @@ public class TaskList extends ArrayList<Task> {
     }
 
     /**
-     * Fuzzy search the given string for the given term.
+     * Fuzzy searches the given string for the given term.
      * @param string - the string to search through
      * @param term - the term we are looking for
      * @return - how approximately does the term appear in the string.

@@ -29,7 +29,7 @@ public class Storage {
     private final File file;
 
     /**
-     * Create a new Storage pointing at a filepath
+     * Creates a new Storage pointing at a filepath
      *
      * @param filepath - the location where this class persists and loads data
      */
@@ -55,7 +55,7 @@ public class Storage {
     }
 
     /**
-     *  Loads tasks from the filepath into the given list.
+     * Loads tasks from the filepath into the given list.
      * @param lst - List to append the tasks to.
      */
     public <T extends List<Task>> T load(T lst) {
