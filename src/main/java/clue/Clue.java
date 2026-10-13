@@ -6,6 +6,9 @@ import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
 
 import clue.commands.ByeCommand;
+import clue.commands.CreateDeadlineCommand;
+import clue.commands.CreateEventCommand;
+import clue.commands.CreateTodoCommand;
 import clue.commands.DeleteCommand;
 import clue.commands.FindCommand;
 import clue.commands.ListCommand;
@@ -66,92 +69,9 @@ public class Clue {
         parser.register(DeleteCommand.name, new DeleteCommand(tasks));
 
         // Task creation commands
-        parser.register("todo", (ui, args) -> {
-            if (args.isEmpty()) {
-                ui.println("Please tell us what this todo is called!");
-                return true;
-            }
-
-            String todoName = args.get("").trim();
-            if (todoName.isEmpty()) {
-                ui.println("Please tell us what this todo is called!");
-                return true;
-            }
-
-            try {
-                tasks.addTask(ui, new ToDo(todoName));
-            } catch (InvalidTaskException e) {
-                ui.println("Error creating todo: " + e.getMessage());
-            }
-            return true;
-        });
-
-        parser.register("deadline", (ui, args) -> {
-            if (args.isEmpty()) {
-                ui.println("Please tell us what this deadline is called!");
-                return true;
-            }
-
-            String deadlineName = args.get("").trim();
-            if (deadlineName.isEmpty()) {
-                ui.println("Please tell us what this deadline is called!");
-                return true;
-            }
-
-            String unparsedBy = args.get("by");
-            if (unparsedBy == null || unparsedBy.trim().isEmpty()) {
-                ui.println("Please provide a deadline date using the /by argument!");
-                return true;
-            }
-
-            LocalDateTime by = parseDate(ui, unparsedBy);
-            if (by != null) {
-                try {
-                    tasks.addTask(ui, new Deadline(deadlineName, by));
-                } catch (InvalidTaskException e) {
-                    ui.println("Error creating deadline: " + e.getMessage());
-                }
-            }
-            return true;
-        });
-
-        parser.register("event", (ui, args) -> {
-            if (args.isEmpty()) {
-                ui.println("Please tell us what this event is called!");
-                return true;
-            }
-
-            String eventName = args.get("").trim();
-            if (eventName.isEmpty()) {
-                ui.println("Please tell us what this event is called!");
-                return true;
-            }
-
-            String unparsedFrom = args.get("from");
-            String unparsedTo = args.get("to");
-
-            if (unparsedFrom == null || unparsedFrom.trim().isEmpty()) {
-                ui.println("Please provide a start date using the /from argument!");
-                return true;
-            }
-
-            if (unparsedTo == null || unparsedTo.trim().isEmpty()) {
-                ui.println("Please provide an end date using the /to argument!");
-                return true;
-            }
-
-            LocalDateTime from = parseDate(ui, unparsedFrom);
-            LocalDateTime to = parseDate(ui, unparsedTo);
-
-            if (from != null && to != null) {
-                try {
-                    tasks.addTask(ui, new Event(eventName, from, to));
-                } catch (InvalidTaskException e) {
-                    ui.println("Error creating event: " + e.getMessage());
-                }
-            }
-            return true;
-        });
+        parser.register(CreateTodoCommand.name, new CreateTodoCommand(tasks));
+        parser.register(CreateDeadlineCommand.name, new CreateDeadlineCommand(tasks));
+        parser.register(CreateEventCommand.name, new CreateEventCommand(tasks));
 
         // Find command
         parser.register(FindCommand.name, new FindCommand(tasks));
@@ -159,7 +79,8 @@ public class Clue {
 
     // ==================== Utility Methods ====================
 
-    static LocalDateTime parseDate(Ui ui, String unparsed) {
+    /** Parses a String into a LocalDateTime, giving feedback to the user */
+    public static LocalDateTime parseDate(Ui ui, String unparsed) {
         if (unparsed == null || unparsed.trim().isEmpty()) {
             ui.println("Invalid date format! Please provide a valid date. Example: [2026-]12-31[ 12:30]");
             return null;
